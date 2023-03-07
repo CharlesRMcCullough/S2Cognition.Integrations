@@ -18,6 +18,7 @@
     <ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.NetSuite.Core\S2Cognition.Integrations.NetSuite.Core.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.Zoom.Core\S2Cognition.Integrations.Zoom.Core.csproj" />
+    <ProjectReference Include="..\S2Cognition.Integrations.Zoom.Phones\S2Cognition.Integrations.Zoom.Phones.csproj" />
   </ItemGroup>
 
 </Project>

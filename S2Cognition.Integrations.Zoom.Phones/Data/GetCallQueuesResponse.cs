@@ -1,10 +1,10 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace S2Cognition.Integrations.Zoom.Core.Models
+namespace S2Cognition.Integrations.Zoom.Phones.Data
 {
-    public class ZoomGetCallQueuesResponse
+    public class GetCallQueueResponse
     {
-        public ZoomGetCallQueuesResponse()
+        public GetCallQueueResponse()
         {
         }
 

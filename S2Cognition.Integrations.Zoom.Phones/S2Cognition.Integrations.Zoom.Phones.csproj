@@ -21,11 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\S2Cognition.Integrations.Zoom.Core\S2Cognition.Integrations.Zoom.Core.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,7 @@
-﻿namespace S2Cognition.Integrations.Zoom.Phones;
+﻿using Microsoft.Extensions.DependencyInjection;
+using S2Cognition.Integrations.Core;
+
+namespace S2Cognition.Integrations.Zoom.Phones;
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddZoomPhoneIntegration(this IServiceCollection sc)

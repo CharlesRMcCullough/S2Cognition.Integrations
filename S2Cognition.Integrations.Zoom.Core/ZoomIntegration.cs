@@ -10,7 +10,6 @@ namespace S2Cognition.Integrations.Zoom.Core;
 public interface IZoomIntegration : IIntegration<ZoomConfiguration>
 {
     Task<GetUsersResponse> GetUsers(GetUsersRequest request);
-    Task<ZoomGetCallQueuesResponse> GetCallQueue(GetUsersRequest request);
 }
 
 internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegration
@@ -68,24 +67,6 @@ internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegratio
         //var zoomData = await client.Get<Zoom>(route);
 
         return JsonSerializer.Deserialize<GetUsersResponse>(JsonSerializer.Serialize(zoomData))
-            ?? throw new InvalidOperationException($"Cannot deserialize {nameof(GetUsersResponse)}");
-    }
-
-    public async Task<ZoomGetCallQueuesResponse> GetCallQueue(GetUsersRequest request)
-    {
-        var accessToken = await Authenticate();
-
-        var ioc = Configuration.IoC;
-
-        var clientFactory = ioc.GetRequiredService<IHttpClientFactory>();
-
-        using var client = clientFactory.Create();
-        client.SetAuthorization(accessToken, AuthorizationType.Bearer);
-
-        var route = $"https://api.zoom.us/v2/phone/call_queues";
-        var zoomData = await client.Get<ZoomGetCallQueuesResponse>(route);
-
-        return JsonSerializer.Deserialize<ZoomGetCallQueuesResponse>(JsonSerializer.Serialize(zoomData))
             ?? throw new InvalidOperationException($"Cannot deserialize {nameof(GetUsersResponse)}");
     }
 }
