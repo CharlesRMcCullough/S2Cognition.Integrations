@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace S2Cognition.Integrations.AmazonWebServices.Ses;
 
-public interface IAmazonWebServicesSesIntegration: IIntegration<AmazonWebServicesSesConfiguration>
+public interface IAmazonWebServicesSesIntegration : IIntegration<AmazonWebServicesSesConfiguration>
 {
     /// <summary>
     /// Sends an email.
@@ -22,10 +22,18 @@ public interface IAmazonWebServicesSesIntegration: IIntegration<AmazonWebService
     Task<SendResponse> Send(SendRequest req);
 }
 
-public partial class AmazonWebServicesSesIntegration : Integration<AmazonWebServicesSesConfiguration>, IAmazonWebServicesSesIntegration
+public class AmazonWebServicesSesIntegration : Integration<AmazonWebServicesSesConfiguration>, IAmazonWebServicesSesIntegration
 {
-    [GeneratedRegex("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")]
-    private static partial Regex EmailAddressRegex();
+    private const string EmailAddressRegexString = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+    private Regex? _emailAddressRegex = null;
+    private Regex EmailAddressRegex 
+    {
+        get 
+        {
+            _emailAddressRegex ??= new Regex(EmailAddressRegexString);
+            return _emailAddressRegex;
+        }
+    }
 
     private IAwsSesClient? _client;
     private IAwsSesClient Client
@@ -46,7 +54,6 @@ public partial class AmazonWebServicesSesIntegration : Integration<AmazonWebServ
             return _client;
         }
     }
-
     internal AmazonWebServicesSesIntegration(IServiceProvider serviceProvider)
         : base(serviceProvider)
     {
@@ -54,10 +61,10 @@ public partial class AmazonWebServicesSesIntegration : Integration<AmazonWebServ
 
     public async Task<SendResponse> Send(SendRequest req)
     {
-        if (string.IsNullOrWhiteSpace(req.Sender) || !EmailAddressRegex().IsMatch(req.Sender))
+        if (string.IsNullOrWhiteSpace(req.Sender) || !EmailAddressRegex.IsMatch(req.Sender))
             throw new ArgumentException(nameof(SendRequest.Sender));
 
-        if (string.IsNullOrWhiteSpace(req.Recipient) || !EmailAddressRegex().IsMatch(req.Recipient))
+        if (string.IsNullOrWhiteSpace(req.Recipient) || !EmailAddressRegex.IsMatch(req.Recipient))
             throw new ArgumentException(nameof(SendRequest.Recipient));
 
         if (string.IsNullOrWhiteSpace(req.Subject))
@@ -67,7 +74,7 @@ public partial class AmazonWebServicesSesIntegration : Integration<AmazonWebServ
             throw new ArgumentException(nameof(SendRequest.Body));
 
         var toAddresses = new List<string>();
-        if (!string.IsNullOrWhiteSpace(req.Recipient))
+        if ((req.Recipient != null) && !string.IsNullOrWhiteSpace(req.Recipient))
             toAddresses.Add(req.Recipient);
 
         var sesRequest = new SendEmailRequest

@@ -98,48 +98,48 @@ namespace S2Cognition.Integrations.Zoom.Phones
             }).FirstOrDefault() ?? new GetCallQueueMemberResponse();
         }
 
-        public async Task<GetCallQueueMemberResponse> SetCallQueueMembers(GetCallQueueMemberRequest request)
-        {
-            var accessToken = await Authenticate();
+        //public async Task<GetCallQueueMemberResponse> SetCallQueueMembers(GetCallQueueMemberRequest request)
+        //{
+        //    var accessToken = await Authenticate();
 
-            var ioc = Configuration.IoC;
+        //    var ioc = Configuration.IoC;
 
-            var clientFactory = ioc.GetRequiredService<IHttpClientFactory>();
+        //    var clientFactory = ioc.GetRequiredService<IHttpClientFactory>();
 
-            using var client = clientFactory.Create();
-            client.SetAuthorization(accessToken, AuthorizationType.Bearer);
+        //    using var client = clientFactory.Create();
+        //    client.SetAuthorization(accessToken, AuthorizationType.Bearer);
 
-            var route = $"https://api.zoom.us/v2/phone/call_queues/{request.CallQeuueId}/members";
-            //var zoomData = await client.Get<ZoomGetCallQueueMemberResponse>(route);
+        //    var route = $"https://api.zoom.us/v2/phone/call_queues/{request.CallQeuueId}/members";
+        //    //var zoomData = await client.Get<ZoomGetCallQueueMemberResponse>(route);
 
-            var queueMember = new ZoomSetCallQueueMember
-            {
-                Members = new Members
-                {
-                    Users = new List<PhoneUser>
-                    {
-                        new PhoneUser { Id = "SJjwzBLURpanjczk0b6bTg", Email = "ryan.wylie@s2cognition.com" }
-                    }
-                }
-            };
+        //    var queueMember = new ZoomSetCallQueueMember
+        //    {
+        //        Members = new Members
+        //        {
+        //            Users = new List<PhoneUser>
+        //            {
+        //                new PhoneUser { Id = "SJjwzBLURpanjczk0b6bTg", Email = "ryan.wylie@s2cognition.com" }
+        //            }
+        //        }
+        //    };
 
-            var x = JsonSerializer.Serialize(queueMember);
+        //    var x = JsonSerializer.Serialize(queueMember);
 
 
 
-            var y = await client.Post < (route);
+        //    var y = await client.Post < (route);
 
-            var response = JsonSerializer.Deserialize<ZoomGetCallQueueMemberResponse>(JsonSerializer.Serialize(zoomData))
-                ?? throw new InvalidOperationException($"Cannot deserialize {nameof(ZoomGetCallQueueMemberResponse)}");
+        //    var response = JsonSerializer.Deserialize<ZoomGetCallQueueMemberResponse>(JsonSerializer.Serialize(zoomData))
+        //        ?? throw new InvalidOperationException($"Cannot deserialize {nameof(ZoomGetCallQueueMemberResponse)}");
 
-            return response.CallQueueMembers?.Select(_ => new GetCallQueueMemberResponse()
-            {
-                Id = _.Id,
-                Name = _.Name,
-                ExtensionId = _.ExtensionId,
-                Level = _.Level,
-                ReceiveCall = _.ReceiveCall
-            }).FirstOrDefault() ?? new GetCallQueueMemberResponse();
-        }
+        //    return response.CallQueueMembers?.Select(_ => new GetCallQueueMemberResponse()
+        //    {
+        //        Id = _.Id,
+        //        Name = _.Name,
+        //        ExtensionId = _.ExtensionId,
+        //        Level = _.Level,
+        //        ReceiveCall = _.ReceiveCall
+        //    }).FirstOrDefault() ?? new GetCallQueueMemberResponse();
+        //}
     }
 }
