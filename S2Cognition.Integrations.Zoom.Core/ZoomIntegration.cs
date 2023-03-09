@@ -69,7 +69,6 @@ internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegratio
         using var client = clientFactory.Create();
         client.SetAuthorization(accessToken, AuthorizationType.Bearer);
 
-        //    var route = $"https://api.zoom.us/v2/users?status=activate";
         var route = $"https://api.zoom.us/v2/phone/call_queues";
         var zoomData = await client.Get<ZoomGetUsersPagedResponse>(route);
         //var zoomData = await client.Get<Zoom>(route);

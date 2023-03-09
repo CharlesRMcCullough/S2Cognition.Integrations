@@ -31,7 +31,7 @@ public interface IHttpClient : IDisposable
 {
     void SetAuthorization(string auth, AuthorizationType? authType = AuthorizationType.Basic);
     Task<T?> Get<T>(string route);
-    Task<T?> Post<T>(string route);
+    Task<T?> Post<T>(string route, HttpContent? content = null);
 }
 
 internal class HttpClient : IHttpClient
@@ -71,12 +71,13 @@ internal class HttpClient : IHttpClient
         return await ProcessResponse<T>(response);
     }
 
-    public async Task<T?> Post<T>(string route)
+    public async Task<T?> Post<T>(string route, HttpContent? content = null)
     {
         if (_client == null)
             throw new ObjectDisposedException(nameof(HttpClient));
 
-        var response = await _client.PostAsync(route, null);
+        var response = await _client.PostAsync(route, content);
+
         return await ProcessResponse<T>(response);
     }
 

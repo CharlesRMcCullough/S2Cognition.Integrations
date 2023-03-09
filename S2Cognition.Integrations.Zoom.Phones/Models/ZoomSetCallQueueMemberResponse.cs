@@ -2,7 +2,7 @@
 
 namespace S2Cognition.Integrations.Zoom.Phones.Models
 {
-    public class ZoomSetCallQueueMember
+    public class ZoomSetCallQueueMemberResponse
     {
         [JsonPropertyName("members")]
         public Members? Members { get; set; }

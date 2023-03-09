@@ -13,6 +13,8 @@ namespace S2Cognition.Integrations.Zoom.Phones
     {
         Task<GetCallQueueResponse> GetCallQueues(GetUsersRequest request);
         Task<GetCallQueueMemberResponse> GetCallQueueMembers(GetCallQueueMemberRequest request);
+        Task<GetUsersResponse> GetUsers(GetUsersRequest request);
+        Task<GetCallQueueMemberResponse> SetCallQueueMembers(SetCallQueueMemberRequest request);
     }
 
     internal class ZoomPhoneIntegration : Integration<ZoomConfiguration>, IZoomPhoneIntegration
@@ -33,8 +35,12 @@ namespace S2Cognition.Integrations.Zoom.Phones
 
         private async Task<string> Authenticate()
         {
-            if ((_authenticationToken != null) && !String.IsNullOrWhiteSpace(_authenticationToken.AccessToken))
+            if ((_authenticationToken != null)
+                && (_authenticationToken.AccessToken != null)
+                && !String.IsNullOrWhiteSpace(_authenticationToken.AccessToken))
+            {
                 return _authenticationToken.AccessToken;
+            }
 
             var ioc = Configuration.IoC;
 
@@ -98,48 +104,53 @@ namespace S2Cognition.Integrations.Zoom.Phones
             }).FirstOrDefault() ?? new GetCallQueueMemberResponse();
         }
 
-        //public async Task<GetCallQueueMemberResponse> SetCallQueueMembers(GetCallQueueMemberRequest request)
-        //{
-        //    var accessToken = await Authenticate();
+        public async Task<GetCallQueueMemberResponse> SetCallQueueMembers(SetCallQueueMemberRequest request)
+        {
+            var accessToken = await Authenticate();
 
-        //    var ioc = Configuration.IoC;
+            var ioc = Configuration.IoC;
 
-        //    var clientFactory = ioc.GetRequiredService<IHttpClientFactory>();
+            var clientFactory = ioc.GetRequiredService<IHttpClientFactory>();
 
-        //    using var client = clientFactory.Create();
-        //    client.SetAuthorization(accessToken, AuthorizationType.Bearer);
+            using var client = clientFactory.Create();
+            client.SetAuthorization(accessToken, AuthorizationType.Bearer);
 
-        //    var route = $"https://api.zoom.us/v2/phone/call_queues/{request.CallQeuueId}/members";
-        //    //var zoomData = await client.Get<ZoomGetCallQueueMemberResponse>(route);
+            var route = $"https://api.zoom.us/v2/phone/call_queues/{request.CallQeuueId}/members";
 
-        //    var queueMember = new ZoomSetCallQueueMember
-        //    {
-        //        Members = new Members
-        //        {
-        //            Users = new List<PhoneUser>
-        //            {
-        //                new PhoneUser { Id = "SJjwzBLURpanjczk0b6bTg", Email = "ryan.wylie@s2cognition.com" }
-        //            }
-        //        }
-        //    };
+            var queueMember = new ZoomSetCallQueueMemberResponse
+            {
+                Members = new Members
+                {
+                    Users = new List<PhoneUser>
+                    {
+                        new PhoneUser { Id = "SJjwzBLURpanjczk0b6bTg", Email = "ryan.wylie@s2cognition.com" }
+                    }
+                }
+            };
 
-        //    var x = JsonSerializer.Serialize(queueMember);
+            var x = JsonSerializer.Serialize(queueMember);
 
+            var y = await client.Post<ZoomSetCallQueueMemberResponse>(route, new StringContent(x));
 
+            return new GetCallQueueMemberResponse();
+        }
 
-        //    var y = await client.Post < (route);
+        public async Task<GetUsersResponse> GetUsers(GetUsersRequest request)
+        {
+            var accessToken = await Authenticate();
 
-        //    var response = JsonSerializer.Deserialize<ZoomGetCallQueueMemberResponse>(JsonSerializer.Serialize(zoomData))
-        //        ?? throw new InvalidOperationException($"Cannot deserialize {nameof(ZoomGetCallQueueMemberResponse)}");
+            var ioc = Configuration.IoC;
 
-        //    return response.CallQueueMembers?.Select(_ => new GetCallQueueMemberResponse()
-        //    {
-        //        Id = _.Id,
-        //        Name = _.Name,
-        //        ExtensionId = _.ExtensionId,
-        //        Level = _.Level,
-        //        ReceiveCall = _.ReceiveCall
-        //    }).FirstOrDefault() ?? new GetCallQueueMemberResponse();
-        //}
+            var clientFactory = ioc.GetRequiredService<IHttpClientFactory>();
+
+            using var client = clientFactory.Create();
+            client.SetAuthorization(accessToken, AuthorizationType.Bearer);
+
+            var route = $"https://api.zoom.us/v2/phone/users?status=activate";
+            var zoomData = await client.Get<ZoomGetUsersPagedResponse>(route);
+
+            return JsonSerializer.Deserialize<GetUsersResponse>(JsonSerializer.Serialize(zoomData))
+                ?? throw new InvalidOperationException($"Cannot deserialize {nameof(GetUsersResponse)}");
+        }
     }
 }
