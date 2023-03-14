@@ -2,6 +2,7 @@
 {
     public class SetCallQueueMemberRequest
     {
-        public string? CallQeuueId { get; set; }
+        public string? QueueName { get; set; }
+        public string? UserEmail { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace S2Cognition.Integrations.Zoom.Phones.Models
+namespace S2Cognition.Integrations.Zoom.Phones.Data
 {
-    public class ZoomSetCallQueueMemberResponse
+    public class ZoomSetCallQueueMemberRequest
     {
         [JsonPropertyName("members")]
         public Members? Members { get; set; }

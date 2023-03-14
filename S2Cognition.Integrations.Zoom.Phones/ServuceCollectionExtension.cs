@@ -7,6 +7,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddZoomPhoneIntegration(this IServiceCollection sc)
     {
         return sc.AddIntegrationUtilities()
-            .AddScoped<IZoomPhoneIntegration>(_ => new ZoomPhoneIntegration(_));
+            .AddScoped<IZoomPhoneIntegration>(_ => new ZoomPhoneIntegration(_))
+            .AddScoped<IZoomPhoneNativeClient>(_ => new ZoomPhoneNativeClient(_));
     }
 }

@@ -2,6 +2,6 @@
 {
     public class GetCallQueueMemberRequest
     {
-        public string? CallQeuueId { get; set; }
+        public string? CallQueueName { get; set; }
     }
 }

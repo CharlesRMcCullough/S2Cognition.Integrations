@@ -71,7 +71,6 @@ internal class ZoomIntegration : Integration<ZoomConfiguration>, IZoomIntegratio
 
         var route = $"https://api.zoom.us/v2/phone/call_queues";
         var zoomData = await client.Get<ZoomGetUsersPagedResponse>(route);
-        //var zoomData = await client.Get<Zoom>(route);
 
         return JsonSerializer.Deserialize<GetUsersResponse>(JsonSerializer.Serialize(zoomData))
             ?? throw new InvalidOperationException($"Cannot deserialize {nameof(GetUsersResponse)}");

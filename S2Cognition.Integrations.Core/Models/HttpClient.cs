@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using SystemHttpClient = System.Net.Http.HttpClient;
 
@@ -32,6 +33,7 @@ public interface IHttpClient : IDisposable
     void SetAuthorization(string auth, AuthorizationType? authType = AuthorizationType.Basic);
     Task<T?> Get<T>(string route);
     Task<T?> Post<T>(string route, HttpContent? content = null);
+    Task<T?> PostJsonObject<T>(string route, object obj);
 }
 
 internal class HttpClient : IHttpClient
@@ -76,15 +78,24 @@ internal class HttpClient : IHttpClient
         if (_client == null)
             throw new ObjectDisposedException(nameof(HttpClient));
 
+        _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         var response = await _client.PostAsync(route, content);
 
         return await ProcessResponse<T>(response);
+    }
+
+    public async Task<T?> PostJsonObject<T>(string route, object obj)
+    {
+        var jsonRequest = JsonSerializer.Serialize(obj);
+        var response = await Post<T>(route, new StringContent(jsonRequest, Encoding.UTF8, "application/json"));
+        return response;
     }
 
     private static async Task<T?> ProcessResponse<T>(HttpResponseMessage response)
     {
         var jsonString = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<T>(jsonString);
+
     }
 
     protected virtual void Dispose(bool isDisposing)
