@@ -99,7 +99,7 @@ internal class ZoomPhoneNativeClient : Integration<ZoomConfiguration>, IZoomPhon
 
         var route = $"https://api.zoom.us/v2/phone/call_queues/{req.CallQeuueId}/members/{req.UserId}";
 
-        return await client.Post<RemoveCallQueueMemberResponse>(route) ?? new RemoveCallQueueMemberResponse();
+        return await client.Delete<RemoveCallQueueMemberResponse>(route) ?? new RemoveCallQueueMemberResponse();
     }
 
 

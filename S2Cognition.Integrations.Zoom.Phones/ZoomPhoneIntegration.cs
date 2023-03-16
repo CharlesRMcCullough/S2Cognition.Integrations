@@ -7,7 +7,7 @@ using S2Cognition.Integrations.Zoom.Phones.Data;
 
 namespace S2Cognition.Integrations.Zoom.Phones
 {
-    public interface IZoomPhoneIntegration : IIntegration<ZoomConfiguration>
+    public interface IZoomPhoneIntegration : IIntegration<ZoomPhoneConfiguration>
     {
         Task<GetCallQueuesResponse> GetCallQueues(GetCallQueuesRequest req);
         Task<GetCallQueueMemberResponse> GetCallQueueMembers(GetCallQueueMemberRequest req);
@@ -16,7 +16,7 @@ namespace S2Cognition.Integrations.Zoom.Phones
         Task<RemoveCallQueueMemberResponse> RemoveCallQueueMembers(RemoveCallQueueMemberRequest req);
     }
 
-    internal class ZoomPhoneIntegration : Integration<ZoomConfiguration>, IZoomPhoneIntegration
+    public class ZoomPhoneIntegration : Integration<ZoomPhoneConfiguration>, IZoomPhoneIntegration
     {
         private ZoomAuthenticationResponse? _authenticationToken = null;
 
@@ -25,14 +25,14 @@ namespace S2Cognition.Integrations.Zoom.Phones
         {
         }
 
-        public override async Task Initialize(ZoomConfiguration configuration)
+        public override async Task Initialize(ZoomPhoneConfiguration configuration)
         {
             await base.Initialize(configuration);
 
             _authenticationToken = null;
         }
 
-        private async Task<string> Authenticate()
+        protected internal virtual async Task<string> Authenticate()
         {
             if ((_authenticationToken != null)
                 && (_authenticationToken.AccessToken != null)
@@ -55,7 +55,7 @@ namespace S2Cognition.Integrations.Zoom.Phones
             if ((_authenticationToken == null) || String.IsNullOrWhiteSpace(_authenticationToken.AccessToken))
                 throw new InvalidOperationException();
 
-            return _authenticationToken.AccessToken;
+            return _authenticationToken.AccessToken ?? "";
         }
 
         public async Task<GetCallQueuesResponse> GetCallQueues(GetCallQueuesRequest req)
@@ -102,6 +102,9 @@ namespace S2Cognition.Integrations.Zoom.Phones
 
         public async Task<GetCallQueueMemberResponse> GetCallQueueMembers(GetCallQueueMemberRequest req)
         {
+            if (string.IsNullOrWhiteSpace(req.CallQueueName))
+                throw new ArgumentException(nameof(GetCallQueueMemberRequest.CallQueueName));
+
             string? _queueId = null;
             var accessToken = await Authenticate();
             var client = _serviceProvider.GetRequiredService<IZoomPhoneNativeClient>();
@@ -161,8 +164,14 @@ namespace S2Cognition.Integrations.Zoom.Phones
 
         public async Task<SetCallQueueMemberResponse> SetCallQueueMembers(SetCallQueueMemberRequest req)
         {
-            string? _userId = string.Empty;
-            string? _queueId = string.Empty;
+            if (string.IsNullOrWhiteSpace(req.QueueName))
+                throw new ArgumentException(nameof(SetCallQueueMemberRequest.QueueName));
+
+            if (string.IsNullOrWhiteSpace(req.UserEmail))
+                throw new ArgumentException(nameof(SetCallQueueMemberRequest.UserEmail));
+
+            string? _userId = null;
+            string? _queueId = null;
 
             var accessToken = await Authenticate();
             var client = _serviceProvider.GetRequiredService<IZoomPhoneNativeClient>();
@@ -181,23 +190,27 @@ namespace S2Cognition.Integrations.Zoom.Phones
                 _queueId = queues.CallQueues.First(_ => _.Name?.ToLower().Trim() == req.QueueName.ToLower().Trim()).id;
             }
 
-            if (_queueId != null)
+            await client.SetZoomCallQueueMembers(accessToken, new SetZoomCallQueueMemberRequest
             {
-                await client.SetZoomCallQueueMembers(accessToken, new SetZoomCallQueueMemberRequest
-                {
-                    CallQeuueId = _queueId,
-                    UserId = _userId,
-                    UserEmail = req.UserEmail,
-                });
-            }
+                CallQeuueId = _queueId,
+                UserId = _userId,
+                UserEmail = req.UserEmail,
+            });
 
             return new SetCallQueueMemberResponse();
         }
 
         public async Task<RemoveCallQueueMemberResponse> RemoveCallQueueMembers(RemoveCallQueueMemberRequest req)
         {
-            string? _userId = string.Empty;
-            string? _queueId = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(req.QueueName))
+                throw new ArgumentException(nameof(RemoveCallQueueMemberRequest.QueueName));
+
+            if (string.IsNullOrWhiteSpace(req.UserEmail))
+                throw new ArgumentException(nameof(RemoveCallQueueMemberRequest.UserEmail));
+
+            string? _userId = null;
+            string? _queueId = null;
 
             var accessToken = await Authenticate();
             var client = _serviceProvider.GetRequiredService<IZoomPhoneNativeClient>();

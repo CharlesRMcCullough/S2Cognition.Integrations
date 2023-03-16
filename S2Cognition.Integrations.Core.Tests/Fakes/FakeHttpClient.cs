@@ -6,6 +6,8 @@ public interface IFakeHttpClient
 {
     void ExpectsPost(string route, string response);
     void ExpectsGet(string route, string response);
+    Task<T?> PostJsonObject<T>(string route, object obj);
+    Task<T?> Delete<T>(string route);
 
     void EnsureDisposed();
 }
@@ -69,8 +71,14 @@ internal class FakeHttpClient : IFakeHttpClient, IHttpClient
     {
         // Should I ensure this is set for all calls?
     }
-    public Task PostJsonObject(string route, global::S2Cognition.Integrations.Zoom.Phones.Models.ZoomSetCallQueueMemberResponse queueMember)
+    public async Task<T?> PostJsonObject<T>(string route, object obj)
     {
         throw new NotImplementedException();
     }
+    public async Task<T?> Delete<T>(string route)
+    {
+        throw new NotImplementedException();
+    }
+
+
 }

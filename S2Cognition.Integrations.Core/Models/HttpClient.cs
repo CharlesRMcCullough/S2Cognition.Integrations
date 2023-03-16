@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using SystemHttpClient = System.Net.Http.HttpClient;
@@ -33,16 +34,19 @@ public interface IHttpClient : IDisposable
     void SetAuthorization(string auth, AuthorizationType? authType = AuthorizationType.Basic);
     Task<T?> Get<T>(string route);
     Task<T?> Post<T>(string route, HttpContent? content = null);
+    Task<T?> Delete<T>(string route);
     Task<T?> PostJsonObject<T>(string route, object obj);
 }
 
 internal class HttpClient : IHttpClient
 {
-    private SystemHttpClient? _client = new();
+    private SystemHttpClient? _client = null;
     private bool _isDisposed = false;
 
     internal HttpClient()
     {
+        _client = new SystemHttpClient();
+        _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
     ~HttpClient()
@@ -78,8 +82,20 @@ internal class HttpClient : IHttpClient
         if (_client == null)
             throw new ObjectDisposedException(nameof(HttpClient));
 
-        _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         var response = await _client.PostAsync(route, content);
+
+        return await ProcessResponse<T>(response);
+    }
+
+    public async Task<T?> Delete<T>(string route)
+    {
+        if (_client == null)
+            throw new ObjectDisposedException(nameof(HttpClient));
+
+        var response = await _client.DeleteAsync(route);
+
+        if (response.StatusCode == HttpStatusCode.NoContent)
+            return default;
 
         return await ProcessResponse<T>(response);
     }
