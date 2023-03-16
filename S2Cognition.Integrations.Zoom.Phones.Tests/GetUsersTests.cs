@@ -39,6 +39,5 @@ public class GetUsersTests : IntegrationTests
         response.Users.Any(_ => _.FirstName == expectedResponse.Users[0].FirstName);
         response.Users.Any(_ => _.LastName == expectedResponse.Users[0].LastName);
         response.Users.Any(_ => _.Email == expectedResponse.Users[0].Email);
-
     }
 }
