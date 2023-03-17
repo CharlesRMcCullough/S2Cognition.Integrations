@@ -97,7 +97,6 @@ namespace S2Cognition.Integrations.Zoom.Phones
             {
                 CallQueues = queuesToReturn
             };
-
         }
 
         public async Task<GetCallQueueMemberResponse> GetCallQueueMembers(GetCallQueueMemberRequest req)

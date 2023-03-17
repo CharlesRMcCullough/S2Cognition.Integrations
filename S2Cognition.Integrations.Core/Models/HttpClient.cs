@@ -104,6 +104,7 @@ internal class HttpClient : IHttpClient
     {
         var jsonRequest = JsonSerializer.Serialize(obj);
         var response = await Post<T>(route, new StringContent(jsonRequest, Encoding.UTF8, "application/json"));
+
         return response;
     }
 
