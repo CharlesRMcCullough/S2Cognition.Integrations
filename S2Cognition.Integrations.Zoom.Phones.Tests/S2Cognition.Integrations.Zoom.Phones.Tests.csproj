@@ -21,4 +21,10 @@
 		</PackageReference>
 	</ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\S2Cognition.Integrations.Core.Tests\S2Cognition.Integrations.Core.Tests.csproj" />
+    <ProjectReference Include="..\S2Cognition.Integrations.Zoom.Core\S2Cognition.Integrations.Zoom.Core.csproj" />
+    <ProjectReference Include="..\S2Cognition.Integrations.Zoom.Phones\S2Cognition.Integrations.Zoom.Phones.csproj" />
+  </ItemGroup>
+
 </Project>

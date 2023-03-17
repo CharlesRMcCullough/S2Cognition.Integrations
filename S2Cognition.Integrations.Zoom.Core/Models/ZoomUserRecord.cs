@@ -2,13 +2,13 @@
 
 namespace S2Cognition.Integrations.Zoom.Core.Models;
 
-internal class ZoomUserRecord
+public class ZoomUserRecord
 {
     // Should be internal.   However, System.Text.Json.JsonSerializer doesn't have a good way to see internals yet.
     public ZoomUserRecord()
-    { 
+    {
     }
-    
+
     [JsonPropertyName("id")]
     public string? Id { get; set; }
 
