@@ -11,6 +11,7 @@ namespace S2Cognition.Integrations.Zoom.Phones;
 
 public interface IZoomPhoneNativeClient : IIntegration<ZoomConfiguration>
 {
+    Task<ZoomAuthenticationResponse?> Authenticate();
     Task<ZoomGetCallQueuesResponse> GetZoomCallQueues(string accessToken, GetCallQueuesRequest req);
     Task<ZoomGetCallQueueMemberResponse> GetZoomCallQueueMembers(string accessToken, ZoomGetCallQueueMemberRequest request);
     Task<ZoomGetUsersPagedResponse> GetZoomUsers(string accessToken, GetUsersRequest req);
@@ -23,6 +24,20 @@ internal class ZoomPhoneNativeClient : Integration<ZoomConfiguration>, IZoomPhon
     internal ZoomPhoneNativeClient(IServiceProvider ioc)
         : base(ioc)
     {
+    }
+
+    public async Task<ZoomAuthenticationResponse?> Authenticate()
+    {
+        var ioc = Configuration.IoC;
+
+        var clientFactory = ioc.GetRequiredService<IHttpClientFactory>();
+        var stringUtils = ioc.GetRequiredService<IStringUtils>();
+
+        using var client = clientFactory.Create();
+        client.SetAuthorization(stringUtils.ToBase64($"{Configuration.ClientId}:{Configuration.ClientSecret}"));
+
+        var route = $"https://zoom.us/oauth/token?grant_type=account_credentials&account_id={Configuration.AccountId}";
+        return await client.Post<ZoomAuthenticationResponse>(route);
     }
 
     public async Task<ZoomGetCallQueuesResponse> GetZoomCallQueues(string accessToken, GetCallQueuesRequest req)

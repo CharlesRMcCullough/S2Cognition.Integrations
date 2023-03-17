@@ -71,14 +71,16 @@ internal class FakeHttpClient : IFakeHttpClient, IHttpClient
     {
         // Should I ensure this is set for all calls?
     }
+
     public async Task<T?> PostJsonObject<T>(string route, object obj)
     {
+        await Task.CompletedTask;
         throw new NotImplementedException();
     }
+
     public async Task<T?> Delete<T>(string route)
     {
+        await Task.CompletedTask;
         throw new NotImplementedException();
     }
-
-
 }

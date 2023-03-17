@@ -41,21 +41,17 @@ namespace S2Cognition.Integrations.Zoom.Phones
                 return _authenticationToken.AccessToken;
             }
 
-            var ioc = Configuration.IoC;
+            var client = _serviceProvider.GetRequiredService<IZoomPhoneNativeClient>();
+            _authenticationToken = await client.Authenticate();
 
-            var clientFactory = ioc.GetRequiredService<IHttpClientFactory>();
-            var stringUtils = ioc.GetRequiredService<IStringUtils>();
-
-            using var client = clientFactory.Create();
-            client.SetAuthorization(stringUtils.ToBase64($"{Configuration.ClientId}:{Configuration.ClientSecret}"));
-
-            var route = $"https://zoom.us/oauth/token?grant_type=account_credentials&account_id={Configuration.AccountId}";
-            _authenticationToken = await client.Post<ZoomAuthenticationResponse>(route);
-
-            if ((_authenticationToken == null) || String.IsNullOrWhiteSpace(_authenticationToken.AccessToken))
+            if ((_authenticationToken == null)
+                || (_authenticationToken.AccessToken == null)
+                || String.IsNullOrWhiteSpace(_authenticationToken.AccessToken))
+            {
                 throw new InvalidOperationException();
+            }
 
-            return _authenticationToken.AccessToken ?? "";
+            return _authenticationToken.AccessToken;
         }
 
         public async Task<GetCallQueuesResponse> GetCallQueues(GetCallQueuesRequest req)
