@@ -22,7 +22,7 @@ internal class AwsSesClient : IAwsSesClient
     public async Task<SendEmailResponse> Send(SendEmailRequest req)
     {
         var region = _config.RegionEndpoint ?? new AwsRegionEndpoint(RegionEndpoint.USEast1);
-        var ses = new AmazonSimpleEmailServiceV2Client(region.Native);
+        using var ses = new AmazonSimpleEmailServiceV2Client(region.Native);
         return await ses.SendEmailAsync(req);
     }
 }
