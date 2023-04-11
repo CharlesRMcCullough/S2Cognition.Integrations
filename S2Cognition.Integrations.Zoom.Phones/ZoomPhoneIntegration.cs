@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using S2Cognition.Integrations.Core;
-using S2Cognition.Integrations.Core.Models;
 using S2Cognition.Integrations.Zoom.Core.Data;
 using S2Cognition.Integrations.Zoom.Core.Models;
 using S2Cognition.Integrations.Zoom.Phones.Data;
@@ -30,6 +29,14 @@ namespace S2Cognition.Integrations.Zoom.Phones
             await base.Initialize(configuration);
 
             _authenticationToken = null;
+
+            var client = _serviceProvider.GetRequiredService<IZoomPhoneNativeClient>();
+            await client.Initialize(new ZoomConfiguration(_serviceProvider)
+            {
+                AccountId = configuration.AccountId,
+                ClientId = configuration.ClientId,
+                ClientSecret = configuration.ClientSecret
+            });
         }
 
         protected internal virtual async Task<string> Authenticate()
