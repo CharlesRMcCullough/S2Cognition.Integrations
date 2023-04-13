@@ -13,6 +13,7 @@ namespace S2Cognition.Integrations.Zoom.Phones
         Task<GetUsersResponse> GetUsers(GetUsersRequest req);
         Task<SetCallQueueMemberResponse> SetCallQueueMembers(SetCallQueueMemberRequest req);
         Task<RemoveCallQueueMemberResponse> RemoveCallQueueMembers(RemoveCallQueueMemberRequest req);
+        Task<ClearCallQueueMemberResponse> ClearCallQueueMembers(ClearCallQueueMemberRequest req);
     }
 
     public class ZoomPhoneIntegration : Integration<ZoomPhoneConfiguration>, IZoomPhoneIntegration
@@ -242,6 +243,36 @@ namespace S2Cognition.Integrations.Zoom.Phones
             }
 
             return new RemoveCallQueueMemberResponse();
+        }
+
+        public async Task<ClearCallQueueMemberResponse> ClearCallQueueMembers(ClearCallQueueMemberRequest req)
+        {
+
+            if (string.IsNullOrWhiteSpace(req.QueueName))
+                throw new ArgumentException(nameof(ClearCallQueueMemberRequest.QueueName));
+
+            string? _queueId = null;
+
+            var accessToken = await Authenticate();
+            var client = _serviceProvider.GetRequiredService<IZoomPhoneNativeClient>();
+
+            var queues = await client.GetZoomCallQueues(accessToken, new GetCallQueuesRequest());
+
+            if (req.QueueName != null && queues.CallQueues != null)
+            {
+                _queueId = queues.CallQueues.First(_ => _.Name?.ToLower().Trim() == req.QueueName.ToLower().Trim()).id;
+            }
+
+            if (_queueId != null)
+            {
+                await client.ClearZoomCallQueueMembers(accessToken, new ClearZoomCallQueueMemberRequest
+                {
+                    CallQeuueId = _queueId
+                });
+
+            }
+
+            return new ClearCallQueueMemberResponse();
         }
     }
 }

@@ -17,6 +17,7 @@ public interface IZoomPhoneNativeClient : IIntegration<ZoomConfiguration>
     Task<ZoomGetUsersPagedResponse> GetZoomUsers(string accessToken, GetUsersRequest req);
     Task<SetCallQueueMemberResponse> SetZoomCallQueueMembers(string accessToken, SetZoomCallQueueMemberRequest req);
     Task<RemoveCallQueueMemberResponse> RemoveZoomCallQueueMembers(string accessToken, RemoveZoomCallQueueMemberRequest req);
+    Task<ClearCallQueueMemberResponse> ClearZoomCallQueueMembers(string accessToken, ClearZoomCallQueueMemberRequest req);
 }
 
 internal class ZoomPhoneNativeClient : Integration<ZoomConfiguration>, IZoomPhoneNativeClient
@@ -94,6 +95,14 @@ internal class ZoomPhoneNativeClient : Integration<ZoomConfiguration>, IZoomPhon
         var route = $"https://api.zoom.us/v2/phone/call_queues/{req.CallQeuueId}/members/{req.UserId}";
 
         return await client.Delete<RemoveCallQueueMemberResponse>(route) ?? new RemoveCallQueueMemberResponse();
+    }
+
+    public async Task<ClearCallQueueMemberResponse> ClearZoomCallQueueMembers(string accessToken, ClearZoomCallQueueMemberRequest req)
+    {
+        var client = await GetZoomClient(accessToken);
+        var route = $"https://api.zoom.us/v2/phone/call_queues/{req.CallQeuueId}/members";
+
+        return await client.Delete<ClearCallQueueMemberResponse>(route) ?? new ClearCallQueueMemberResponse();
     }
 
     private async Task<IHttpClient> GetZoomClient(string accessToken)
