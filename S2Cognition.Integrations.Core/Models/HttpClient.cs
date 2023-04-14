@@ -84,6 +84,9 @@ internal class HttpClient : IHttpClient
 
         var response = await _client.PostAsync(route, content);
 
+        if (response.StatusCode == HttpStatusCode.Created)
+            return default;
+
         return await ProcessResponse<T>(response);
     }
 
