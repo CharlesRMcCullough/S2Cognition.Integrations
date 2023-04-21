@@ -18,3 +18,5 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("S2Cognition.Integrations.S3.Tests")]
 [assembly: InternalsVisibleTo("S2Cognition.Integrations.Ses")]
 [assembly: InternalsVisibleTo("S2Cognition.Integrations.Ses.Tests")]
+[assembly: InternalsVisibleTo("S2Cognition.Integrations.Cognito")]
+[assembly: InternalsVisibleTo("S2Cognition.Integrations.Cognito.Tests")]
