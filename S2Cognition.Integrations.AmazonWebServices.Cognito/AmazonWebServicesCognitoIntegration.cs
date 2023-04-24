@@ -9,8 +9,10 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
 {
     public interface IAmazonWebServicesCognitoIntegration : IIntegration<AmazonWebServicesCognitoConfiguration>
     {
-        Task<GetUserResponse> GetUser(string email);
+        //Task<GetUserResponse> GetUser(string email);
         Task<ListCognitoUsersResponse> GetUserList(ListCognitoUsersRequest request);
+        Task<CreateCognitoUserResponse> CreateUser(CreateCognitoUserRequest request);
+        Task<SetCognitoPasswordResponse> SetPassword(SetCognitoPasswordRequest request);
     }
     internal class AmazonWebServicesCognitoIntegration : Integration<AmazonWebServicesCognitoConfiguration>, IAmazonWebServicesCognitoIntegration
     {
@@ -44,34 +46,34 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
         }
 
 
-        public async Task<GetUserResponse> GetUser(string email)
-        {
-            //if (String.IsNullOrWhiteSpace(email))
-            //    throw new S2CognitionException(S2CognitionExceptionTypes.AuthenticationUnknownCredentials);
+        //public async Task<GetUserResponse> GetUser(string email)
+        //{
+        //    //if (String.IsNullOrWhiteSpace(email))
+        //    //    throw new S2CognitionException(S2CognitionExceptionTypes.AuthenticationUnknownCredentials);
 
-            var username = ConvertEmailToUsername(email);
-            ////using var client = BuildClient(out var awsUserPoolId);
-            try
-            {
-                var response = await Client.GetUser(new AdminGetUserRequest
-                {
-                    Username = username,
-                    UserPoolId = "us-east-2_6RDboNybw"
-                });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+        //    var username = ConvertEmailToUsername(email);
+        //    ////using var client = BuildClient(out var awsUserPoolId);
+        //    try
+        //    {
+        //        var response = await Client.GetUser(new AdminGetUserRequest
+        //        {
+        //            Username = username,
+        //            UserPoolId = "us-east-2_6RDboNybw"
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
 
-            //  var emailAttribute = response.UserAttributes.FirstOrDefault(_ => _.Name == "email");
-            //return new AuthUser
-            //{
-            //    Username = response.Username,
-            //    EmailAddress = emailAttribute?.Value
-            //};
-            return new GetUserResponse();
-        }
+        //    //  var emailAttribute = response.UserAttributes.FirstOrDefault(_ => _.Name == "email");
+        //    //return new AuthUser
+        //    //{
+        //    //    Username = response.Username,
+        //    //    EmailAddress = emailAttribute?.Value
+        //    //};
+        //    return new GetUserResponse();
+        //}
 
         public async Task<ListCognitoUsersResponse> GetUserList(ListCognitoUsersRequest request)
         {
@@ -133,6 +135,81 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
             {
                 UserRecords = CongitoUsers.OrderBy(_ => _.LastName).ToList()
             };
+        }
+
+        public async Task<CreateCognitoUserResponse> CreateUser(CreateCognitoUserRequest request)
+        {
+            if (request == null)
+                throw new ArgumentException(nameof(CreateCognitoUserRequest));
+
+            var attributes = new List<AttributeType>
+            {
+                new AttributeType { Name = "email", Value = request.EmailAddress },
+                new AttributeType { Name = "email_verified", Value = "true" }
+            };
+
+            if (!String.IsNullOrWhiteSpace(request.PhoneNumber))
+            {
+                attributes.Add(new AttributeType { Name = "phone_number", Value = request.PhoneNumber });
+                attributes.Add(new AttributeType { Name = "phone_number_verified", Value = "true" });
+            }
+
+            if (!String.IsNullOrWhiteSpace(request.LastName))
+            {
+                attributes.Add(new AttributeType { Name = "family_name", Value = request.LastName });
+            }
+
+            if (!String.IsNullOrWhiteSpace(request.FirstName))
+            {
+                if (!String.IsNullOrWhiteSpace(request.MiddleName))
+                {
+                    attributes.Add(new AttributeType { Name = "given_name", Value = $"{request.FirstName} {request.MiddleName}" });
+                }
+                else
+                {
+                    attributes.Add(new AttributeType { Name = "given_name", Value = request.FirstName });
+                }
+            }
+            else
+            {
+                if (!String.IsNullOrWhiteSpace(request.MiddleName))
+                {
+                    attributes.Add(new AttributeType { Name = "given_name", Value = request.MiddleName });
+                }
+            }
+
+            var response = await Client.CreateUser(new AdminCreateUserRequest
+            {
+                Username = request.UserName,
+                UserPoolId = request.UserPoolId,
+                ForceAliasCreation = true,
+                UserAttributes = attributes
+
+            });
+
+            return new CreateCognitoUserResponse
+            {
+                UserName = response.User.Username,
+                EmailAddress = response.User.UserStatus
+            };
+        }
+
+        public async Task<SetCognitoPasswordResponse> SetPassword(SetCognitoPasswordRequest request)
+        {
+
+            if (request == null)
+                throw new ArgumentException(nameof(CreateCognitoUserRequest));
+
+            await Client.SetPassword(new AdminSetUserPasswordRequest
+            {
+                Username = request.UserName,
+                Password = request.Password,
+                Permanent = true,
+                UserPoolId = request.UserPoolId
+            });
+
+            return new SetCognitoPasswordResponse();
+
         }
 
         private string ConvertEmailToUsername(string emailAddress)

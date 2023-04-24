@@ -9,6 +9,8 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
         AmazonCognitoIdentityProviderClient Native { get; }
         Task<GetCognitoUserResponse> GetUser(AdminGetUserRequest request);
         Task<ListUsersResponse> ListUsers(ListUsersRequest request);
+        Task<AdminCreateUserResponse> CreateUser(AdminCreateUserRequest request);
+        Task<AdminSetUserPasswordResponse> SetPassword(AdminSetUserPasswordRequest request);
     }
     internal class AwsCognitoClient : IAwsCognitoClient
     {
@@ -41,13 +43,31 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
         {
             ListUsersResponse response;
 
-            response = await Native.ListUsersAsync(new ListUsersRequest
-            {
-                AttributesToGet = request.AttributesToGet,
-                UserPoolId = request.UserPoolId
-            });
+            response = await Native.ListUsersAsync(request);
+            //{
+            //    AttributesToGet = request.AttributesToGet,
+            //    UserPoolId = request.UserPoolId
+            //});
 
             return response ?? new ListUsersResponse();
+        }
+
+        public async Task<AdminCreateUserResponse> CreateUser(AdminCreateUserRequest request)
+        {
+            AdminCreateUserResponse response;
+
+            response = await Native.AdminCreateUserAsync(request);
+
+            return response ?? new AdminCreateUserResponse();
+        }
+
+        public async Task<AdminSetUserPasswordResponse> SetPassword(AdminSetUserPasswordRequest request)
+        {
+            AdminSetUserPasswordResponse response;
+
+            response = await Native.AdminSetUserPasswordAsync(request);
+
+            return response ?? new AdminSetUserPasswordResponse();
         }
     }
 }
