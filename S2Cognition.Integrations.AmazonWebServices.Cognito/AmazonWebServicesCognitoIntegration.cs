@@ -9,10 +9,12 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
 {
     public interface IAmazonWebServicesCognitoIntegration : IIntegration<AmazonWebServicesCognitoConfiguration>
     {
-        //Task<GetUserResponse> GetUser(string email);
         Task<ListCognitoUsersResponse> GetUserList(ListCognitoUsersRequest request);
         Task<CreateCognitoUserResponse> CreateUser(CreateCognitoUserRequest request);
         Task<SetCognitoPasswordResponse> SetPassword(SetCognitoPasswordRequest request);
+        Task<ResetCognitoPasswordResponse> ResetPassword(ResetCognitoPasswordRequest request);
+        Task<SignOutCognitoResponse> GlobalSignOut(SignOutCognitoRequest request);
+        Task<SignOutCognitoResponse> ForgotPassword(ForgotCognitoPasswordRequest request);
     }
     internal class AmazonWebServicesCognitoIntegration : Integration<AmazonWebServicesCognitoConfiguration>, IAmazonWebServicesCognitoIntegration
     {
@@ -196,7 +198,6 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
 
         public async Task<SetCognitoPasswordResponse> SetPassword(SetCognitoPasswordRequest request)
         {
-
             if (request == null)
                 throw new ArgumentException(nameof(CreateCognitoUserRequest));
 
@@ -210,6 +211,64 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
 
             return new SetCognitoPasswordResponse();
 
+        }
+
+        public async Task<ResetCognitoPasswordResponse> ResetPassword(ResetCognitoPasswordRequest request)
+        {
+            if (request == null)
+                throw new ArgumentException(nameof(ResetCognitoPasswordRequest));
+
+            if (string.IsNullOrEmpty(request.UserName))
+                throw new ArgumentException(nameof(request.UserName));
+
+            if (string.IsNullOrEmpty(request.UserPoolId))
+                throw new ArgumentException(nameof(request.UserPoolId));
+
+            await Client.ResetPassword(new AdminResetUserPasswordRequest
+            {
+                Username = request.UserName,
+                UserPoolId = request.UserPoolId
+            });
+
+            return new ResetCognitoPasswordResponse();
+        }
+
+        public async Task<SignOutCognitoResponse> GlobalSignOut(SignOutCognitoRequest request)
+        {
+            if (request == null)
+                throw new ArgumentException(nameof(SignOutCognitoRequest));
+
+            if (string.IsNullOrEmpty(request.UserName))
+                throw new ArgumentException(nameof(request.UserName));
+
+            if (string.IsNullOrEmpty(request.UserPoolId))
+                throw new ArgumentException(nameof(request.UserPoolId));
+
+            await Client.GlobalSignOut(new AdminUserGlobalSignOutRequest
+            {
+                Username = request.UserName,
+                UserPoolId = request.UserPoolId
+            });
+
+            return new SignOutCognitoResponse();
+        }
+
+        public async Task<SignOutCognitoResponse> ForgotPassword(ForgotCognitoPasswordRequest request)
+        {
+            if (request == null)
+                throw new ArgumentException(nameof(ForgotCognitoPasswordRequest));
+
+            if (string.IsNullOrEmpty(request.UserName))
+                throw new ArgumentException(nameof(request.UserName));
+
+            await Client.ForgotPassword(new ForgotPasswordRequest
+            {
+                Username = request.UserName,
+                ClientId = request.ClientId
+
+            });
+
+            return new SignOutCognitoResponse();
         }
 
         private string ConvertEmailToUsername(string emailAddress)

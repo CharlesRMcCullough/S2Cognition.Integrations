@@ -11,6 +11,10 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
         Task<ListUsersResponse> ListUsers(ListUsersRequest request);
         Task<AdminCreateUserResponse> CreateUser(AdminCreateUserRequest request);
         Task<AdminSetUserPasswordResponse> SetPassword(AdminSetUserPasswordRequest request);
+        Task<AdminResetUserPasswordResponse> ResetPassword(AdminResetUserPasswordRequest request);
+        Task<AdminUserGlobalSignOutResponse> GlobalSignOut(AdminUserGlobalSignOutRequest request);
+        Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request);
+
     }
     internal class AwsCognitoClient : IAwsCognitoClient
     {
@@ -44,10 +48,6 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             ListUsersResponse response;
 
             response = await Native.ListUsersAsync(request);
-            //{
-            //    AttributesToGet = request.AttributesToGet,
-            //    UserPoolId = request.UserPoolId
-            //});
 
             return response ?? new ListUsersResponse();
         }
@@ -63,11 +63,70 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
 
         public async Task<AdminSetUserPasswordResponse> SetPassword(AdminSetUserPasswordRequest request)
         {
-            AdminSetUserPasswordResponse response;
+            AdminSetUserPasswordResponse? response = null;
 
-            response = await Native.AdminSetUserPasswordAsync(request);
+            try
+            {
+                response = await Native.AdminSetUserPasswordAsync(request);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             return response ?? new AdminSetUserPasswordResponse();
+        }
+
+        public async Task<AdminResetUserPasswordResponse> ResetPassword(AdminResetUserPasswordRequest request)
+        {
+            AdminResetUserPasswordResponse? response = null;
+
+            try
+            {
+                response = await Native.AdminResetUserPasswordAsync(request);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return response ?? new AdminResetUserPasswordResponse();
+        }
+
+        public async Task<AdminUserGlobalSignOutResponse> GlobalSignOut(AdminUserGlobalSignOutRequest request)
+        {
+            AdminUserGlobalSignOutResponse response;
+
+            response = await Native.AdminUserGlobalSignOutAsync(request);
+
+            return response ?? new AdminUserGlobalSignOutResponse();
+        }
+
+        public async Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request)
+        {
+            ForgotPasswordResponse response;
+
+            response = await Native.ForgotPasswordAsync(request);
+
+            return response ?? new ForgotPasswordResponse();
+        }
+
+        public async Task<AdminInitiateAuthResponse> InitiateAuth(AdminInitiateAuthRequest request)
+        {
+            AdminInitiateAuthResponse response;
+
+            response = await Native.AdminInitiateAuthAsync(request);
+
+            return response ?? new AdminInitiateAuthResponse();
+        }
+
+        public async Task<AdminRespondToAuthChallengeResponse> RespondToAuthChallenge(AdminRespondToAuthChallengeRequest request)
+        {
+            AdminRespondToAuthChallengeResponse response;
+
+            response = await Native.AdminRespondToAuthChallengeAsync(request);
+
+            return response ?? new AdminRespondToAuthChallengeResponse();
         }
     }
 }
