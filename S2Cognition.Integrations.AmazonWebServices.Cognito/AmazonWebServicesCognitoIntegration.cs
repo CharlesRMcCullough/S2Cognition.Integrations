@@ -1,4 +1,5 @@
-﻿using Amazon.CognitoIdentityProvider.Model;
+﻿using Amazon.CognitoIdentityProvider;
+using Amazon.CognitoIdentityProvider.Model;
 using Microsoft.Extensions.DependencyInjection;
 using S2Cognition.Integrations.AmazonWebServices.Cognito.Data;
 using S2Cognition.Integrations.AmazonWebServices.Cognito.Models;
@@ -15,6 +16,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
         Task<ResetCognitoPasswordResponse> ResetPassword(ResetCognitoPasswordRequest request);
         Task<SignOutCognitoResponse> GlobalSignOut(SignOutCognitoRequest request);
         Task<SignOutCognitoResponse> ForgotPassword(ForgotCognitoPasswordRequest request);
+        Task<ChangeCognitoUserNameResponse> ChangeUsername(ChangeCognitoUserNameRequest request);
     }
     internal class AmazonWebServicesCognitoIntegration : Integration<AmazonWebServicesCognitoConfiguration>, IAmazonWebServicesCognitoIntegration
     {
@@ -92,7 +94,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
             response = await Client.ListUsers(new ListUsersRequest
             {
                 UserPoolId = request.UserPoolId,
-                Filter = null
+                Filter = request.Filter
             });
 
             if (response != null)
@@ -269,6 +271,89 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
             });
 
             return new SignOutCognitoResponse();
+        }
+
+        public async Task<AuthicateCognitoUserResponse> AuthenticateUser(AuthicateCognitoUserRequest request)
+        {
+            if (request == null)
+                throw new ArgumentException(nameof(AuthicateCognitoUserRequest));
+
+            //if (string.IsNullOrEmpty(request.UserName))
+            //    throw new ArgumentException(nameof(request.UserName));
+
+            var response = await Client.InitiateAuth(new AdminInitiateAuthRequest
+            {
+                ClientId = request.ClientId,
+                AuthFlow = AuthFlowType.CUSTOM_AUTH,
+                UserPoolId = request.UserPoolId,
+                AuthParameters = new Dictionary<string, string>()
+                {
+                    { "USERNAME", request.Username ?? string.Empty }
+                }
+            });
+
+            var code = request.AccessCode;
+            if (string.IsNullOrEmpty(code))
+                code = request.ShortCode;
+
+            // Only one challenge, but this could be multiple for sending email codes, captcha, etc
+            var challengeResponse = await Client.RespondToAuthChallenge(new AdminRespondToAuthChallengeRequest
+            {
+                ClientId = request.ClientId,
+                ChallengeName = ChallengeNameType.CUSTOM_CHALLENGE,
+                Session = response.Session,
+                UserPoolId = request.UserPoolId,
+                ChallengeResponses = new Dictionary<string, string>()
+                {
+                    { "USERNAME", request.Username ?? string.Empty },
+                    { "ANSWER", code ?? string.Empty }
+                }
+            });
+
+            return new AuthicateCognitoUserResponse
+            {
+                AccessToken = challengeResponse.AuthenticationResult.AccessToken,
+                IdentityToken = challengeResponse.AuthenticationResult.IdToken,
+                Username = request.Username
+            };
+        }
+
+        public async Task<ChangeCognitoUserNameResponse> ChangeUsername(ChangeCognitoUserNameRequest request)
+        {
+            if (request == null)
+                throw new ArgumentException(nameof(ChangeCognitoUserNameRequest));
+
+            if (request.OldUserName == null)
+                throw new ArgumentException(nameof(request.OldUserName));
+
+            if (request.NewUserName == null)
+                throw new ArgumentException(nameof(request.NewUserName));
+
+            //ChangeCognitoUserNameResponse response;
+
+            if (request.OldUserName != request.NewUserName)
+            {
+                var cognitoUser = await Client.ListUsers(new ListUsersRequest
+                {
+                    Filter = $"email=\"{request.OldUserName}\"",
+                    UserPoolId = request.UserPoolId
+                });
+
+                var response = await Client.ChangeUserName(new AdminUpdateUserAttributesRequest
+                {
+                    UserAttributes = new List<AttributeType>
+                    {
+                        new AttributeType{Name="email", Value=request.NewUserName},
+                        new AttributeType{Name="email_verified", Value="true"}
+                    },
+                    UserPoolId = request.NewUserName,
+                    Username = cognitoUser.Users[0].Username
+                });
+
+                return new ChangeCognitoUserNameResponse();
+            }
+
+            return new ChangeCognitoUserNameResponse();
         }
 
         private string ConvertEmailToUsername(string emailAddress)

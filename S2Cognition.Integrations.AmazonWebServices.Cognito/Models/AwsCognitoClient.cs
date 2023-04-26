@@ -14,6 +14,10 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
         Task<AdminResetUserPasswordResponse> ResetPassword(AdminResetUserPasswordRequest request);
         Task<AdminUserGlobalSignOutResponse> GlobalSignOut(AdminUserGlobalSignOutRequest request);
         Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request);
+        Task<AdminInitiateAuthResponse> AdminInitiateAuth(AdminInitiateAuthRequest request);
+        Task<AdminRespondToAuthChallengeResponse> RespondToAuthChallenge(AdminRespondToAuthChallengeRequest request);
+        Task<AdminUpdateUserAttributesResponse> ChangeUserName(AdminUpdateUserAttributesRequest request);
+        Task<InitiateAuthResponse> InitiateAuth(InitiateAuthRequest request);
 
     }
     internal class AwsCognitoClient : IAwsCognitoClient
@@ -111,7 +115,16 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             return response ?? new ForgotPasswordResponse();
         }
 
-        public async Task<AdminInitiateAuthResponse> InitiateAuth(AdminInitiateAuthRequest request)
+        public async Task<InitiateAuthResponse> InitiateAuth(InitiateAuthRequest request)
+        {
+            InitiateAuthResponse response;
+
+            response = await Native.InitiateAuthAsync(request);
+
+            return response ?? new InitiateAuthResponse();
+        }
+
+        public async Task<AdminInitiateAuthResponse> AdminInitiateAuth(AdminInitiateAuthRequest request)
         {
             AdminInitiateAuthResponse response;
 
@@ -127,6 +140,15 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             response = await Native.AdminRespondToAuthChallengeAsync(request);
 
             return response ?? new AdminRespondToAuthChallengeResponse();
+        }
+
+        public async Task<AdminUpdateUserAttributesResponse> ChangeUserName(AdminUpdateUserAttributesRequest request)
+        {
+            AdminUpdateUserAttributesResponse response;
+
+            response = await Native.AdminUpdateUserAttributesAsync(request);
+
+            return response ?? new AdminUpdateUserAttributesResponse();
         }
     }
 }
