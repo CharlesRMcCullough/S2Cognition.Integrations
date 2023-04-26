@@ -17,6 +17,12 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
         Task<SignOutCognitoResponse> GlobalSignOut(SignOutCognitoRequest request);
         Task<SignOutCognitoResponse> ForgotPassword(ForgotCognitoPasswordRequest request);
         Task<ChangeCognitoUserNameResponse> ChangeUsername(ChangeCognitoUserNameRequest request);
+        Task<AdminInitiateAuthResponse> AdminInitizeAuth(AdminInitiateAuthRequest request);
+        Task<InitiateAuthResponse> InitizeAuth(InitiateAuthRequest request);
+        Task<ConfirmCognitoForgotPasswordResponse> ConfirmForgotPassword(ForgotCognitoPasswordRequest request);
+        Task<RespondToAuthChallengeResponse> RespondToAuthCallenge(RespondToAuthChallengeRequest request);
+        Task<AdminRespondToAuthChallengeResponse> AdminRespondToAuthCallenge(AdminRespondToAuthChallengeRequest request);
+
     }
     internal class AmazonWebServicesCognitoIntegration : Integration<AmazonWebServicesCognitoConfiguration>, IAmazonWebServicesCognitoIntegration
     {
@@ -273,6 +279,101 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
             return new SignOutCognitoResponse();
         }
 
+        public async Task<ConfirmCognitoForgotPasswordResponse> ConfirmForgotPassword(ForgotCognitoPasswordRequest request)
+        {
+            if (request == null)
+                throw new ArgumentException(nameof(ForgotCognitoPasswordRequest));
+
+            if (string.IsNullOrEmpty(request.UserName))
+                throw new ArgumentException(nameof(request.UserName));
+
+            await Client.ForgotPassword(new ForgotPasswordRequest
+            {
+                Username = request.UserName,
+                ClientId = request.ClientId
+
+            });
+
+            return new ConfirmCognitoForgotPasswordResponse();
+        }
+
+        public async Task<RespondToAuthChallengeResponse> RespondToAuthCallenge(RespondToAuthChallengeRequest request)
+        {
+            if (request == null)
+                throw new ArgumentException(nameof(RespondToAuthChallengeRequest));
+
+            await Client.RespondToAuthChallenge(new RespondToAuthChallengeRequest
+            {
+                ClientId = request.ClientId,
+                AnalyticsMetadata = request.AnalyticsMetadata,
+                ChallengeName = request.ChallengeName,
+                ChallengeResponses = request.ChallengeResponses,
+                ClientMetadata = request.ClientMetadata,
+                UserContextData = request.UserContextData,
+                Session = request.Session
+            });
+
+            return new RespondToAuthChallengeResponse();
+        }
+
+        public async Task<AdminRespondToAuthChallengeResponse> AdminRespondToAuthCallenge(AdminRespondToAuthChallengeRequest request)
+        {
+            if (request == null)
+                throw new ArgumentException(nameof(AdminRespondToAuthChallengeRequest));
+
+            AdminRespondToAuthChallengeResponse response;
+
+            response = await Client.AdminRespondToAuthChallenge(new AdminRespondToAuthChallengeRequest
+            {
+                ClientId = request.ClientId,
+                UserPoolId = request.UserPoolId,
+                AnalyticsMetadata = request.AnalyticsMetadata,
+                ChallengeName = request.ChallengeName,
+                ChallengeResponses = request.ChallengeResponses,
+                ClientMetadata = request.ClientMetadata,
+                ContextData = request.ContextData,
+                Session = request.Session
+            });
+
+            return response ?? new AdminRespondToAuthChallengeResponse();
+        }
+
+        public async Task<AdminInitiateAuthResponse> AdminInitizeAuth(AdminInitiateAuthRequest request)
+        {
+            if (request == null)
+                throw new ArgumentException(nameof(ForgotCognitoPasswordRequest));
+
+            //if (string.IsNullOrEmpty(request.UserName))
+            //    throw new ArgumentException(nameof(request.UserName));
+
+            await Client.AdminInitiateAuth(new AdminInitiateAuthRequest
+            {
+                ClientId = request.ClientId,
+                AuthFlow = request.AuthFlow,
+                UserPoolId = request.UserPoolId
+
+            });
+
+            return new AdminInitiateAuthResponse();
+        }
+
+        public async Task<InitiateAuthResponse> InitizeAuth(InitiateAuthRequest request)
+        {
+            if (request == null)
+                throw new ArgumentException(nameof(ForgotCognitoPasswordRequest));
+
+            //if (string.IsNullOrEmpty(request.UserName))
+            //    throw new ArgumentException(nameof(request.UserName));
+
+            await Client.InitiateAuth(new InitiateAuthRequest
+            {
+                ClientId = request.ClientId,
+                AuthFlow = request.AuthFlow
+            });
+
+            return new InitiateAuthResponse();
+        }
+
         public async Task<AuthicateCognitoUserResponse> AuthenticateUser(AuthicateCognitoUserRequest request)
         {
             if (request == null)
@@ -281,7 +382,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
             //if (string.IsNullOrEmpty(request.UserName))
             //    throw new ArgumentException(nameof(request.UserName));
 
-            var response = await Client.InitiateAuth(new AdminInitiateAuthRequest
+            var response = await Client.AdminInitiateAuth(new AdminInitiateAuthRequest
             {
                 ClientId = request.ClientId,
                 AuthFlow = AuthFlowType.CUSTOM_AUTH,
@@ -297,7 +398,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
                 code = request.ShortCode;
 
             // Only one challenge, but this could be multiple for sending email codes, captcha, etc
-            var challengeResponse = await Client.RespondToAuthChallenge(new AdminRespondToAuthChallengeRequest
+            var challengeResponse = await Client.AdminRespondToAuthChallenge(new AdminRespondToAuthChallengeRequest
             {
                 ClientId = request.ClientId,
                 ChallengeName = ChallengeNameType.CUSTOM_CHALLENGE,
@@ -317,6 +418,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
                 Username = request.Username
             };
         }
+
 
         public async Task<ChangeCognitoUserNameResponse> ChangeUsername(ChangeCognitoUserNameRequest request)
         {

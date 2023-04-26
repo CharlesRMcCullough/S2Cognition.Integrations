@@ -14,9 +14,11 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
         Task<AdminResetUserPasswordResponse> ResetPassword(AdminResetUserPasswordRequest request);
         Task<AdminUserGlobalSignOutResponse> GlobalSignOut(AdminUserGlobalSignOutRequest request);
         Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request);
+        Task<ConfirmForgotPasswordResponse> ConfirmForgotPassword(ConfirmForgotPasswordRequest request);
         Task<AdminInitiateAuthResponse> AdminInitiateAuth(AdminInitiateAuthRequest request);
-        Task<AdminRespondToAuthChallengeResponse> RespondToAuthChallenge(AdminRespondToAuthChallengeRequest request);
-        Task<AdminUpdateUserAttributesResponse> ChangeUserName(AdminUpdateUserAttributesRequest request);
+        Task<AdminRespondToAuthChallengeResponse> AdminRespondToAuthChallenge(AdminRespondToAuthChallengeRequest request);
+        Task<RespondToAuthChallengeResponse> RespondToAuthChallenge(RespondToAuthChallengeRequest request);
+        Task<AdminUpdateUserAttributesResponse> AdminUpdateUserAttributes(AdminUpdateUserAttributesRequest request);
         Task<InitiateAuthResponse> InitiateAuth(InitiateAuthRequest request);
 
     }
@@ -33,7 +35,6 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
 
         public async Task<GetCognitoUserResponse> GetUser(AdminGetUserRequest request)
         {
-
             AdminGetUserResponse response;
             try
             {
@@ -115,6 +116,15 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             return response ?? new ForgotPasswordResponse();
         }
 
+        public async Task<ConfirmForgotPasswordResponse> ConfirmForgotPassword(ConfirmForgotPasswordRequest request)
+        {
+            ConfirmForgotPasswordResponse response;
+
+            response = await Native.ConfirmForgotPasswordAsync(request);
+
+            return response ?? new ConfirmForgotPasswordResponse();
+        }
+
         public async Task<InitiateAuthResponse> InitiateAuth(InitiateAuthRequest request)
         {
             InitiateAuthResponse response;
@@ -133,7 +143,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             return response ?? new AdminInitiateAuthResponse();
         }
 
-        public async Task<AdminRespondToAuthChallengeResponse> RespondToAuthChallenge(AdminRespondToAuthChallengeRequest request)
+        public async Task<AdminRespondToAuthChallengeResponse> AdminRespondToAuthChallenge(AdminRespondToAuthChallengeRequest request)
         {
             AdminRespondToAuthChallengeResponse response;
 
@@ -142,7 +152,16 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             return response ?? new AdminRespondToAuthChallengeResponse();
         }
 
-        public async Task<AdminUpdateUserAttributesResponse> ChangeUserName(AdminUpdateUserAttributesRequest request)
+        public async Task<RespondToAuthChallengeResponse> RespondToAuthChallenge(RespondToAuthChallengeRequest request)
+        {
+            RespondToAuthChallengeResponse response;
+
+            response = await Native.RespondToAuthChallengeAsync(request);
+
+            return response ?? new RespondToAuthChallengeResponse();
+        }
+
+        public async Task<AdminUpdateUserAttributesResponse> AdminUpdateUserAttributes(AdminUpdateUserAttributesRequest request)
         {
             AdminUpdateUserAttributesResponse response;
 
@@ -151,4 +170,6 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             return response ?? new AdminUpdateUserAttributesResponse();
         }
     }
-}
+
+
+
