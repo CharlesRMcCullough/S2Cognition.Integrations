@@ -2,7 +2,7 @@
 {
     public class ResetCognitoPasswordRequest
     {
-        public string? UserName { get; set; }
-        public string? UserPoolId { get; set; }
+        public string? UserName { get; set; } = null;
+        public string? UserPoolId { get; set; } = null;
     }
 }

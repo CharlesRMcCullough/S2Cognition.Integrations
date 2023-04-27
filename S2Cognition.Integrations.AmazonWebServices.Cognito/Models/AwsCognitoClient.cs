@@ -7,12 +7,12 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
     internal interface IAwsCognitoClient
     {
         AmazonCognitoIdentityProviderClient Native { get; }
-        Task<GetCognitoUserResponse> GetUser(AdminGetUserRequest request);
+        Task<GetCognitoUserResponse> AdminGetUser(AdminGetUserRequest request);
         Task<ListUsersResponse> ListUsers(ListUsersRequest request);
-        Task<AdminCreateUserResponse> CreateUser(AdminCreateUserRequest request);
-        Task<AdminSetUserPasswordResponse> SetPassword(AdminSetUserPasswordRequest request);
-        Task<AdminResetUserPasswordResponse> ResetPassword(AdminResetUserPasswordRequest request);
-        Task<AdminUserGlobalSignOutResponse> GlobalSignOut(AdminUserGlobalSignOutRequest request);
+        Task<AdminCreateUserResponse> AdminCreateUser(AdminCreateUserRequest request);
+        Task<AdminSetUserPasswordResponse> AdminSetPassword(AdminSetUserPasswordRequest request);
+        Task<AdminResetUserPasswordResponse> AdminResetPassword(AdminResetUserPasswordRequest request);
+        Task<AdminUserGlobalSignOutResponse> AdminGlobalSignOut(AdminUserGlobalSignOutRequest request);
         Task<ForgotPasswordResponse> ForgotPassword(ForgotPasswordRequest request);
         Task<ConfirmForgotPasswordResponse> ConfirmForgotPassword(ConfirmForgotPasswordRequest request);
         Task<AdminInitiateAuthResponse> AdminInitiateAuth(AdminInitiateAuthRequest request);
@@ -33,7 +33,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             _client = new AmazonCognitoIdentityProviderClient(config.AccessToken, config.SecretToken, config.Native);
         }
 
-        public async Task<GetCognitoUserResponse> GetUser(AdminGetUserRequest request)
+        public async Task<GetCognitoUserResponse> AdminGetUser(AdminGetUserRequest request)
         {
             AdminGetUserResponse response;
             try
@@ -57,7 +57,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             return response ?? new ListUsersResponse();
         }
 
-        public async Task<AdminCreateUserResponse> CreateUser(AdminCreateUserRequest request)
+        public async Task<AdminCreateUserResponse> AdminCreateUser(AdminCreateUserRequest request)
         {
             AdminCreateUserResponse response;
 
@@ -66,7 +66,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             return response ?? new AdminCreateUserResponse();
         }
 
-        public async Task<AdminSetUserPasswordResponse> SetPassword(AdminSetUserPasswordRequest request)
+        public async Task<AdminSetUserPasswordResponse> AdminSetPassword(AdminSetUserPasswordRequest request)
         {
             AdminSetUserPasswordResponse? response = null;
 
@@ -82,7 +82,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             return response ?? new AdminSetUserPasswordResponse();
         }
 
-        public async Task<AdminResetUserPasswordResponse> ResetPassword(AdminResetUserPasswordRequest request)
+        public async Task<AdminResetUserPasswordResponse> AdminResetPassword(AdminResetUserPasswordRequest request)
         {
             AdminResetUserPasswordResponse? response = null;
 
@@ -98,7 +98,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             return response ?? new AdminResetUserPasswordResponse();
         }
 
-        public async Task<AdminUserGlobalSignOutResponse> GlobalSignOut(AdminUserGlobalSignOutRequest request)
+        public async Task<AdminUserGlobalSignOutResponse> AdminGlobalSignOut(AdminUserGlobalSignOutRequest request)
         {
             AdminUserGlobalSignOutResponse response;
 
@@ -170,6 +170,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
             return response ?? new AdminUpdateUserAttributesResponse();
         }
     }
+}
 
 
 
