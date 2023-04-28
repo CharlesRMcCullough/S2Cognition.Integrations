@@ -13,6 +13,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\S2Cognition.Integrations.AmazonWebServices.Cognito\S2Cognition.Integrations.AmazonWebServices.Cognito.csproj" />
 		<ProjectReference Include="..\S2Cognition.Integrations.AuthorizeNet.Core\S2Cognition.Integrations.AuthorizeNet.Core.csproj" />
 		<ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
 		<ProjectReference Include="..\S2Cognition.Integrations.Dropbox.Core\S2Cognition.Integrations.Dropbox.Core.csproj" />

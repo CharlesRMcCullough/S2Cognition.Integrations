@@ -109,9 +109,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.Dr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthorizeNet", "AuthorizeNet", "{428B17B6-841F-4760-84B1-C60EEAE50197}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2Cognition.Integrations.AuthorizeNet.Core", "S2Cognition.Integrations.AuthorizeNet.Core\S2Cognition.Integrations.AuthorizeNet.Core.csproj", "{30A7CE25-86CC-4B2B-B6FB-D3985F6430BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AuthorizeNet.Core", "S2Cognition.Integrations.AuthorizeNet.Core\S2Cognition.Integrations.AuthorizeNet.Core.csproj", "{30A7CE25-86CC-4B2B-B6FB-D3985F6430BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2Cognition.Integrations.AuthorizeNet.Core.Tests", "S2Cognition.Integrations.AuthorizeNet.Core.Tests\S2Cognition.Integrations.AuthorizeNet.Core.Tests.csproj", "{08E84291-E2A6-4BE0-8E62-B5BBA74F14A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AuthorizeNet.Core.Tests", "S2Cognition.Integrations.AuthorizeNet.Core.Tests\S2Cognition.Integrations.AuthorizeNet.Core.Tests.csproj", "{08E84291-E2A6-4BE0-8E62-B5BBA74F14A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2Cognition.Integrations.AmazonWebServices.Cognito", "S2Cognition.Integrations.AmazonWebServices.Cognito\S2Cognition.Integrations.AmazonWebServices.Cognito.csproj", "{EBC63FE8-DF15-4BC8-A571-D7573CF4B172}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2Cognition.Integrations.AmazonWebServices.Cognito.Tests", "S2Cognition.Integrations.AmazonWebServices.Cognito.Tests\S2Cognition.Integrations.AmazonWebServices.Cognito.Tests.csproj", "{6A72DDC2-2FEF-404A-A5EF-051B45C6A18B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -275,6 +279,14 @@ Global
 		{08E84291-E2A6-4BE0-8E62-B5BBA74F14A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08E84291-E2A6-4BE0-8E62-B5BBA74F14A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08E84291-E2A6-4BE0-8E62-B5BBA74F14A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBC63FE8-DF15-4BC8-A571-D7573CF4B172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBC63FE8-DF15-4BC8-A571-D7573CF4B172}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBC63FE8-DF15-4BC8-A571-D7573CF4B172}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBC63FE8-DF15-4BC8-A571-D7573CF4B172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A72DDC2-2FEF-404A-A5EF-051B45C6A18B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A72DDC2-2FEF-404A-A5EF-051B45C6A18B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A72DDC2-2FEF-404A-A5EF-051B45C6A18B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A72DDC2-2FEF-404A-A5EF-051B45C6A18B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -317,6 +329,8 @@ Global
 		{64176FC9-4C09-4958-835C-BE1E71D418B0} = {CA33B037-5F8A-4E6E-8A45-82EDCC24E813}
 		{30A7CE25-86CC-4B2B-B6FB-D3985F6430BA} = {428B17B6-841F-4760-84B1-C60EEAE50197}
 		{08E84291-E2A6-4BE0-8E62-B5BBA74F14A5} = {428B17B6-841F-4760-84B1-C60EEAE50197}
+		{EBC63FE8-DF15-4BC8-A571-D7573CF4B172} = {00B5B2C9-5FE8-4911-8B74-7F9C0CB7C130}
+		{6A72DDC2-2FEF-404A-A5EF-051B45C6A18B} = {00B5B2C9-5FE8-4911-8B74-7F9C0CB7C130}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {08D33525-06EC-4463-9B9C-D9FA52D5856A}

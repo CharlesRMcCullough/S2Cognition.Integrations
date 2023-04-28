@@ -11,3 +11,5 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.Ses.Tests")]
 [assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.Ssm")]
 [assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.Ssm.Tests")]
+[assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.Cognito")]
+[assembly: InternalsVisibleTo("S2Cognition.Integrations.AmazonWebServices.Cognito.Tests")]
