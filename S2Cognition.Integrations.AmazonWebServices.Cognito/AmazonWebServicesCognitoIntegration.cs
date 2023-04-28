@@ -318,7 +318,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
             if (string.IsNullOrEmpty(request.Password))
                 throw new ArgumentException(nameof(request.Password));
 
-            await Client.ForgotPassword(new ForgotPasswordRequest
+            await Client.ConfirmForgotPassword(new ConfirmForgotPasswordRequest
             {
                 Username = request.UserName,
                 ClientId = request.ClientId,
@@ -342,7 +342,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
             if (string.IsNullOrEmpty(request.ClientId))
                 throw new ArgumentException(nameof(request.ClientId));
 
-            await Client.RespondToAuthChallenge(new RespondToAuthChallengeRequest
+            var response = await Client.RespondToAuthChallenge(new RespondToAuthChallengeRequest
             {
                 ClientId = request.ClientId,
                 AnalyticsMetadata = request.AnalyticsMetadata,
@@ -353,7 +353,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
                 Session = request.Session
             });
 
-            return new RespondToAuthChallengeResponse();
+            return response ?? new RespondToAuthChallengeResponse();
         }
 
         public async Task<AdminRespondToAuthChallengeResponse> AdminRespondToAuthCallenge(AdminRespondToAuthChallengeRequest request)
@@ -401,7 +401,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
             if (string.IsNullOrEmpty(request.UserPoolId))
                 throw new ArgumentException(nameof(request.UserPoolId));
 
-            await Client.AdminInitiateAuth(new AdminInitiateAuthRequest
+            var response = await Client.AdminInitiateAuth(new AdminInitiateAuthRequest
             {
                 ClientId = request.ClientId,
                 AuthFlow = request.AuthFlow,
@@ -411,7 +411,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
                 ClientMetadata = request.ClientMetadata
             });
 
-            return new AdminInitiateAuthResponse();
+            return response ?? new AdminInitiateAuthResponse();
         }
 
         public async Task<InitiateAuthResponse> InitizeAuth(InitiateAuthRequest request)
@@ -425,7 +425,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
             if (string.IsNullOrEmpty(request.ClientId))
                 throw new ArgumentException(nameof(request.ClientId));
 
-            await Client.InitiateAuth(new InitiateAuthRequest
+            var response = await Client.InitiateAuth(new InitiateAuthRequest
             {
                 ClientId = request.ClientId,
                 AuthFlow = request.AuthFlow,
@@ -435,7 +435,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
                 UserContextData = request.UserContextData
             });
 
-            return new InitiateAuthResponse();
+            return response ?? new InitiateAuthResponse();
         }
 
         //public async Task<AuthicateCognitoUserResponse> AuthenticateUser(AuthicateCognitoUserRequest request)
