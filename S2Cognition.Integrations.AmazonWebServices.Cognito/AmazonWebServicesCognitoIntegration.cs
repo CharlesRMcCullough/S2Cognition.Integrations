@@ -16,8 +16,8 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
         Task<SignOutCognitoResponse> AdminGlobalSignOut(SignOutCognitoRequest request);
         Task<SignOutCognitoResponse> ForgotPassword(ForgotCognitoPasswordRequest request);
         Task<AdminUpdateUserAttributesResponse> AdminUpdateUserAttributes(AdminUpdateUserAttributesRequest request);
-        Task<AdminInitiateAuthResponse> AdminInitizeAuth(AdminInitiateAuthRequest request);
-        Task<InitiateAuthResponse> InitizeAuth(InitiateAuthRequest request);
+        Task<AdminInitiateAuthResponse> AdminInitiateAuth(AdminInitiateAuthRequest request);
+        Task<InitiateAuthResponse> InitiateAuth(InitiateAuthRequest request);
         Task<ConfirmCognitoForgotPasswordResponse> ConfirmForgotPassword(ForgotCognitoPasswordRequest request);
         Task<RespondToAuthChallengeResponse> RespondToAuthCallenge(RespondToAuthChallengeRequest request);
         Task<AdminRespondToAuthChallengeResponse> AdminRespondToAuthCallenge(AdminRespondToAuthChallengeRequest request);
@@ -387,7 +387,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
             return response ?? new AdminRespondToAuthChallengeResponse();
         }
 
-        public async Task<AdminInitiateAuthResponse> AdminInitizeAuth(AdminInitiateAuthRequest request)
+        public async Task<AdminInitiateAuthResponse> AdminInitiateAuth(AdminInitiateAuthRequest request)
         {
             if (request == null)
                 throw new ArgumentException(nameof(AdminInitiateAuthRequest));
@@ -414,7 +414,7 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito
             return response ?? new AdminInitiateAuthResponse();
         }
 
-        public async Task<InitiateAuthResponse> InitizeAuth(InitiateAuthRequest request)
+        public async Task<InitiateAuthResponse> InitiateAuth(InitiateAuthRequest request)
         {
             if (request == null)
                 throw new ArgumentException(nameof(InitiateAuthRequest));

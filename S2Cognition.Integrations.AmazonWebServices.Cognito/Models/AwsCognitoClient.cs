@@ -22,9 +22,10 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
         Task<InitiateAuthResponse> InitiateAuth(InitiateAuthRequest request);
 
     }
-    internal class AwsCognitoClient : IAwsCognitoClient
+    internal class AwsCognitoClient : IAwsCognitoClient, IDisposable
     {
         private readonly AmazonCognitoIdentityProviderClient _client;
+        private bool _isDisposed = false;
 
         public AmazonCognitoIdentityProviderClient Native => _client;
 
@@ -113,6 +114,26 @@ namespace S2Cognition.Integrations.AmazonWebServices.Cognito.Models
         {
             var response = await Native.AdminUpdateUserAttributesAsync(request);
             return response ?? new AdminUpdateUserAttributesResponse();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                _client.Dispose();
+            }
+            _isDisposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }
