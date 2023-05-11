@@ -47,7 +47,6 @@ try
         "S2Cognition.Integrations.Google.Analytics*.nupkg", `
         "S2Cognition.Integrations.Microsoft.Core*.nupkg", `
         "S2Cognition.Integrations.Microsoft.AzureDevOps*.nupkg", `
-        "S2Cognition.Integrations.Monday.Core*.nupkg", `
         "S2Cognition.Integrations.NetSuite.Core*.nupkg", `
         "S2Cognition.Integrations.StreamDeck.Core*.nupkg", `
         "S2Cognition.Integrations.StreamDeck.AwsAlarmMonitor*.nupkg", `

@@ -31,10 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.Go
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.Google.Core.Tests", "S2Cognition.Integrations.Google.Core.Tests\S2Cognition.Integrations.Google.Core.Tests.csproj", "{7078DC33-4C64-44F8-9794-287022C23484}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.Monday.Core.Tests", "S2Cognition.Integrations.Monday.Core.Tests\S2Cognition.Integrations.Monday.Core.Tests.csproj", "{C6ABB673-85AE-4ED1-9212-B0CA69822734}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.Monday.Core", "S2Cognition.Integrations.Monday.Core\S2Cognition.Integrations.Monday.Core.csproj", "{6CFDFAD2-3A2A-40B3-9A51-71A130285F43}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AmazonWebServices.DynamoDb", "S2Cognition.Integrations.AmazonWebServices.DynamoDb\S2Cognition.Integrations.AmazonWebServices.DynamoDb.csproj", "{C2683A33-9546-43A2-BDBC-D3E20D949BE4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AmazonWebServices.DynamoDb.Tests", "S2Cognition.Integrations.AmazonWebServices.DynamoDb.Tests\S2Cognition.Integrations.AmazonWebServices.DynamoDb.Tests.csproj", "{E9FA12C4-79A7-4673-BADD-2E0E3709683F}"
@@ -58,8 +54,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Google", "Google", "{05B1597F-C368-4264-988C-2BB6D22FFD37}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microsoft", "Microsoft", "{15F2E254-2B03-4D00-A96B-8FF6877703E6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Monday", "Monday", "{952538B0-1DD2-49FD-A2AB-4A6E93933441}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetSuite", "NetSuite", "{BDBB25FB-4D37-4B1C-89AC-A8DEFC55A553}"
 EndProject
@@ -113,9 +107,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.Au
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AuthorizeNet.Core.Tests", "S2Cognition.Integrations.AuthorizeNet.Core.Tests\S2Cognition.Integrations.AuthorizeNet.Core.Tests.csproj", "{08E84291-E2A6-4BE0-8E62-B5BBA74F14A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2Cognition.Integrations.AmazonWebServices.Cognito", "S2Cognition.Integrations.AmazonWebServices.Cognito\S2Cognition.Integrations.AmazonWebServices.Cognito.csproj", "{EBC63FE8-DF15-4BC8-A571-D7573CF4B172}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AmazonWebServices.Cognito", "S2Cognition.Integrations.AmazonWebServices.Cognito\S2Cognition.Integrations.AmazonWebServices.Cognito.csproj", "{EBC63FE8-DF15-4BC8-A571-D7573CF4B172}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2Cognition.Integrations.AmazonWebServices.Cognito.Tests", "S2Cognition.Integrations.AmazonWebServices.Cognito.Tests\S2Cognition.Integrations.AmazonWebServices.Cognito.Tests.csproj", "{6A72DDC2-2FEF-404A-A5EF-051B45C6A18B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AmazonWebServices.Cognito.Tests", "S2Cognition.Integrations.AmazonWebServices.Cognito.Tests\S2Cognition.Integrations.AmazonWebServices.Cognito.Tests.csproj", "{6A72DDC2-2FEF-404A-A5EF-051B45C6A18B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -179,14 +173,6 @@ Global
 		{7078DC33-4C64-44F8-9794-287022C23484}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7078DC33-4C64-44F8-9794-287022C23484}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7078DC33-4C64-44F8-9794-287022C23484}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6ABB673-85AE-4ED1-9212-B0CA69822734}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6ABB673-85AE-4ED1-9212-B0CA69822734}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6ABB673-85AE-4ED1-9212-B0CA69822734}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6ABB673-85AE-4ED1-9212-B0CA69822734}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6CFDFAD2-3A2A-40B3-9A51-71A130285F43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CFDFAD2-3A2A-40B3-9A51-71A130285F43}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CFDFAD2-3A2A-40B3-9A51-71A130285F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CFDFAD2-3A2A-40B3-9A51-71A130285F43}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C2683A33-9546-43A2-BDBC-D3E20D949BE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C2683A33-9546-43A2-BDBC-D3E20D949BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2683A33-9546-43A2-BDBC-D3E20D949BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -304,8 +290,6 @@ Global
 		{F0B48804-5AC0-4F6D-B7BF-32D22690EE33} = {15F2E254-2B03-4D00-A96B-8FF6877703E6}
 		{9A639A38-E25D-40C6-AEE1-1FD2A797A322} = {05B1597F-C368-4264-988C-2BB6D22FFD37}
 		{7078DC33-4C64-44F8-9794-287022C23484} = {05B1597F-C368-4264-988C-2BB6D22FFD37}
-		{C6ABB673-85AE-4ED1-9212-B0CA69822734} = {952538B0-1DD2-49FD-A2AB-4A6E93933441}
-		{6CFDFAD2-3A2A-40B3-9A51-71A130285F43} = {952538B0-1DD2-49FD-A2AB-4A6E93933441}
 		{C2683A33-9546-43A2-BDBC-D3E20D949BE4} = {00B5B2C9-5FE8-4911-8B74-7F9C0CB7C130}
 		{E9FA12C4-79A7-4673-BADD-2E0E3709683F} = {00B5B2C9-5FE8-4911-8B74-7F9C0CB7C130}
 		{E5669000-3043-443C-8CB9-1BF5C52D2FBA} = {05B1597F-C368-4264-988C-2BB6D22FFD37}
