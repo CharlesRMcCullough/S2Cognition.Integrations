@@ -144,15 +144,18 @@ namespace S2Cognition.Integrations.Zoom.Phones
 
             var users = new List<UserRecord>();
 
-            users.AddRange(userResponse.Users
-                .Select(_ => new UserRecord
-                {
-                    Id = _.Id ?? "",
-                    Department = _.Department,
-                    Email = _.Email,
-                    FirstName = _.FirstName,
-                    LastName = _.LastName
-                }));
+            if (userResponse.Users != null)
+            {
+                users.AddRange(userResponse.Users
+                    .Select(_ => new UserRecord
+                    {
+                        Id = _.Id ?? "",
+                        Department = _.Department,
+                        Email = _.Email,
+                        FirstName = _.FirstName,
+                        LastName = _.LastName
+                    }));
+            }
 
             var usersToReturn = new GetUsersResponse
             {
