@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Shouldly" Version="4.1.0" />
+		<PackageReference Include="Shouldly" Version="4.2.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -17,6 +17,7 @@
 		<ProjectReference Include="..\S2Cognition.Integrations.AuthorizeNet.Core\S2Cognition.Integrations.AuthorizeNet.Core.csproj" />
 		<ProjectReference Include="..\S2Cognition.Integrations.Core\S2Cognition.Integrations.Core.csproj" />
 		<ProjectReference Include="..\S2Cognition.Integrations.Dropbox.Core\S2Cognition.Integrations.Dropbox.Core.csproj" />
+		<ProjectReference Include="..\S2Cognition.Integrations.MailChimp.Core\S2Cognition.Integrations.MailChimp.Core.csproj" />
     <ProjectReference Include="..\S2Cognition.Integrations.Zoom.Phones\S2Cognition.Integrations.Zoom.Phones.csproj" />
   </ItemGroup>
 
