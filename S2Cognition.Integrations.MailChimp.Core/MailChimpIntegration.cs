@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MailChimp.Net.Models;
+using Microsoft.Extensions.DependencyInjection;
 using S2Cognition.Integrations.Core;
 using S2Cognition.Integrations.MailChimp.Core.Data;
 using S2Cognition.Integrations.MailChimp.Core.Models;
@@ -6,7 +7,7 @@ using S2Cognition.Integrations.MailChimp.Core.Models;
 namespace S2Cognition.Integrations.MailChimp.Core;
 public interface IMailChimpIntegration : IIntegration<MailChimpConfiguration>
 {
-    Task<AddUpdateMemberResponse> GetLists();
+    Task<GetListsResponse> GetLists();
     Task<AddUpdateMemberResponse> MailChimpAddUpdateMember(AddUpdateMemberRequest req);
 }
 public class MailChimpIntegration : Integration<MailChimpConfiguration>, IMailChimpIntegration
@@ -33,17 +34,42 @@ public class MailChimpIntegration : Integration<MailChimpConfiguration>, IMailCh
     {
         var client = _serviceProvider.GetRequiredService<IMailChimpNativeClient>();
 
-        var response = client.MemberAddOrUpdate(req);
+        var member = new Member
+        {
+            ListId = req.ListId,
+            EmailAddress = req.EmailAddress,
+            Status = Status.Subscribed,
+            FullName = req.FirstName,
+            LastChanged = req.LastName
+        };
+
+        var response = await client.MemberAddOrUpdate(req.ListId, member);
 
         return new AddUpdateMemberResponse();
     }
 
-    public async Task<AddUpdateMemberResponse> GetLists()
+    public async Task<GetListsResponse> GetLists()
     {
+        List<GetListResponseItem> getListResponseItems = new List<GetListResponseItem>();
+
         var client = _serviceProvider.GetRequiredService<IMailChimpNativeClient>();
 
         var response = await client.GetLists();
 
-        return new AddUpdateMemberResponse();
+        foreach (var item in response)
+        {
+            var listItem = new GetListResponseItem()
+            {
+                ListId = item.Id,
+                ListName = item.Name
+            };
+
+            getListResponseItems.Add(listItem);
+        }
+
+        return new GetListsResponse
+        {
+            GetListResponseItems = getListResponseItems
+        };
     }
 }

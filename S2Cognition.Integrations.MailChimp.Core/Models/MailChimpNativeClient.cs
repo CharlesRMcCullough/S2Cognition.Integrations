@@ -8,8 +8,8 @@ namespace S2Cognition.Integrations.MailChimp.Core.Models;
 
 public interface IMailChimpNativeClient : IIntegration<MailChimpConfiguration>
 {
-    Task<Member> MemberAddOrUpdate(AddUpdateMemberRequest req);
-    Task<bool> GetLists();
+    Task<Member> MemberAddOrUpdate(string listId, Member member);
+    Task<IEnumerable<List>> GetLists();
 }
 internal class MailChimpNativeClient : Integration<MailChimpConfiguration>, IMailChimpNativeClient
 {
@@ -18,15 +18,9 @@ internal class MailChimpNativeClient : Integration<MailChimpConfiguration>, IMai
     {
     }
 
-    public async Task<Member> MemberAddOrUpdate(AddUpdateMemberRequest req)
+    public async Task<Member> MemberAddOrUpdate(string listId, Member member)
     {
-        var member = new Member
-        {
-            EmailAddress = req.EmailAddress,
-            Status = Status.Subscribed
-        };
-
-        var response = await new MailChimpManager(Configuration.AccountId).Members.AddOrUpdateAsync(req.ListId, member);
+        var response = await new MailChimpManager(Configuration.AccountId).Members.AddOrUpdateAsync(listId, member);
 
         return response;
     }
