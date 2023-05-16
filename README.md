@@ -20,7 +20,6 @@ This set of packages provides simple and consistent integrations with several co
 * [Aws Ses](S2Cognition.Integrations.AmazonWebServices.Ses\Readme.md)
 * [Aws Ssm](S2Cognition.Integrations.AmazonWebServices.Ssm\Readme.md)
 * [Dropbox](S2Cognition.Integrations.Dropbox.Core\Readme.md)
-* [Monday.com](S2Cognition.Integrations.Monday.Core\Readme.md)
 * [NetSuite](S2Cognition.Integrations.NetSuite.Core\Readme.md)
 * [Zoom](S2Cognition.Integrations.Zoom.Core\Readme.md)
 
