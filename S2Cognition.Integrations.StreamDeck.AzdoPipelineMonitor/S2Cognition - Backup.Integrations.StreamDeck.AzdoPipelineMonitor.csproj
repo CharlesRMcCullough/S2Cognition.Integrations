@@ -1,14 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;net7.0</TargetFrameworks>
+		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>Latest</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageProjectUrl>https://github.com/S2Cognition/S2Cognition.Integrations</PackageProjectUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -23,10 +22,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="GraphQL.Client" Version="5.1.1" />
-		<PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="5.1.1" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-		<PackageReference Include="System.Text.Json" Version="7.0.2" />
+		<PackageReference Include="StreamDeckLib" Version="0.5.2040" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\S2Cognition.Integrations.StreamDeck.Core\S2Cognition.Integrations.StreamDeck.Core.csproj" />
 	</ItemGroup>
 
 </Project>
