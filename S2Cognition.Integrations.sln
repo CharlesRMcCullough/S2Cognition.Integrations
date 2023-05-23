@@ -113,10 +113,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.Am
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MailChimp", "MailChimp", "{B6151846-80A5-4A73-B31F-6B74F2E7F0D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2Cognition.Integrations.AmazonWebServices.StepFunction", "S2Cognition.Integrations.AmazonWebServices.StepFunction\S2Cognition.Integrations.AmazonWebServices.StepFunction.csproj", "{259C0FEC-F61F-4BE0-A171-AED244A21533}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.AmazonWebServices.StepFunction", "S2Cognition.Integrations.AmazonWebServices.StepFunction\S2Cognition.Integrations.AmazonWebServices.StepFunction.csproj", "{259C0FEC-F61F-4BE0-A171-AED244A21533}"
 EndProject
-
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2Cognition.Integrations.MailChimp.Core.Tests", "S2Cognition.Integrations.MailChimp.Core.Tests\S2Cognition.Integrations.MailChimp.Core.Tests.csproj", "{EAD4E947-78CD-4719-AF9A-3452E5ED5C6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.MailChimp.Core", "S2Cognition.Integrations.MailChimp.Core\S2Cognition.Integrations.MailChimp.Core.csproj", "{FD5B6418-311B-4ED1-9D20-B8EBF576FEDC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "S2Cognition.Integrations.MailChimp.Core.Tests", "S2Cognition.Integrations.MailChimp.Core.Tests\S2Cognition.Integrations.MailChimp.Core.Tests.csproj", "{0600A28C-4801-435D-ADF8-798EF3AD5F72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -284,10 +285,14 @@ Global
 		{259C0FEC-F61F-4BE0-A171-AED244A21533}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{259C0FEC-F61F-4BE0-A171-AED244A21533}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{259C0FEC-F61F-4BE0-A171-AED244A21533}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6079D63C-5D93-4493-AC6A-74B24ACE82DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6079D63C-5D93-4493-AC6A-74B24ACE82DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6079D63C-5D93-4493-AC6A-74B24ACE82DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6079D63C-5D93-4493-AC6A-74B24ACE82DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD5B6418-311B-4ED1-9D20-B8EBF576FEDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD5B6418-311B-4ED1-9D20-B8EBF576FEDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD5B6418-311B-4ED1-9D20-B8EBF576FEDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD5B6418-311B-4ED1-9D20-B8EBF576FEDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0600A28C-4801-435D-ADF8-798EF3AD5F72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0600A28C-4801-435D-ADF8-798EF3AD5F72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0600A28C-4801-435D-ADF8-798EF3AD5F72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0600A28C-4801-435D-ADF8-798EF3AD5F72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -331,7 +336,8 @@ Global
 		{EBC63FE8-DF15-4BC8-A571-D7573CF4B172} = {00B5B2C9-5FE8-4911-8B74-7F9C0CB7C130}
 		{6A72DDC2-2FEF-404A-A5EF-051B45C6A18B} = {00B5B2C9-5FE8-4911-8B74-7F9C0CB7C130}
 		{259C0FEC-F61F-4BE0-A171-AED244A21533} = {00B5B2C9-5FE8-4911-8B74-7F9C0CB7C130}
-		{6079D63C-5D93-4493-AC6A-74B24ACE82DF} = {00B5B2C9-5FE8-4911-8B74-7F9C0CB7C130}
+		{FD5B6418-311B-4ED1-9D20-B8EBF576FEDC} = {B6151846-80A5-4A73-B31F-6B74F2E7F0D6}
+		{0600A28C-4801-435D-ADF8-798EF3AD5F72} = {B6151846-80A5-4A73-B31F-6B74F2E7F0D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {08D33525-06EC-4463-9B9C-D9FA52D5856A}
