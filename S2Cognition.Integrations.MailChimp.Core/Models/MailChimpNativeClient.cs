@@ -3,7 +3,6 @@ using MailChimp.Net.Models;
 using S2Cognition.Integrations.Core;
 using S2Cognition.Integrations.MailChimp.Core.Data;
 
-
 namespace S2Cognition.Integrations.MailChimp.Core.Models;
 
 public interface IMailChimpNativeClient : IIntegration<MailChimpConfiguration>

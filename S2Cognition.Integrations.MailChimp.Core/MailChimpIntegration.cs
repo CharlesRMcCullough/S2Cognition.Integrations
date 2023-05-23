@@ -32,18 +32,31 @@ public class MailChimpIntegration : Integration<MailChimpConfiguration>, IMailCh
 
     public async Task<AddUpdateMemberResponse> MailChimpAddUpdateMember(AddUpdateMemberRequest req)
     {
+        if (req.ListId == null)
+            throw new ArgumentException(nameof(req.ListId));
+
+        if (string.IsNullOrWhiteSpace(req.EmailAddress))
+            throw new ArgumentException(nameof(req.EmailAddress));
+
         var client = _serviceProvider.GetRequiredService<IMailChimpNativeClient>();
 
-        var member = new Member
+        var response = await client.MemberAddOrUpdate(req.ListId, new Member
         {
             ListId = req.ListId,
             EmailAddress = req.EmailAddress,
-            Status = Status.Subscribed,
+            Status = req.Subscribed ? Status.Subscribed : Status.Unsubscribed,
             FullName = req.FirstName,
             LastChanged = req.LastName
-        };
+        });
 
-        var response = await client.MemberAddOrUpdate(req.ListId, member);
+        if (response != null)
+        {
+            return new AddUpdateMemberResponse
+            {
+                Id = response.Id,
+                EmailAddress = response.EmailAddress
+            };
+        }
 
         return new AddUpdateMemberResponse();
     }
@@ -56,16 +69,12 @@ public class MailChimpIntegration : Integration<MailChimpConfiguration>, IMailCh
 
         var response = await client.GetLists();
 
-        foreach (var item in response)
-        {
-            var listItem = new GetListResponseItem()
+        getListResponseItems.AddRange(response
+            .Select(_ => new GetListResponseItem
             {
-                ListId = item.Id,
-                ListName = item.Name
-            };
-
-            getListResponseItems.Add(listItem);
-        }
+                ListId = _.Id,
+                ListName = _.Name
+            }));
 
         return new GetListsResponse
         {
