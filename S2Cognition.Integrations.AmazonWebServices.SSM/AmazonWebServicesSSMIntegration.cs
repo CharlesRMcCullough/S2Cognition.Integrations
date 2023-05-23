@@ -54,7 +54,7 @@ internal class AmazonWebServicesSsmIntegration : Integration<AmazonWebServicesSs
 
         return new GetSsmParameterResponse
         {
-            Value = response.Parameter.Value
+            Value = response?.Parameter?.Value
         };
     }
 
