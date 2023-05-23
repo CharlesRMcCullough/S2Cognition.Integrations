@@ -19,6 +19,7 @@ This set of packages provides simple and consistent integrations with several co
 * [Aws S3](S2Cognition.Integrations.AmazonWebServices.S3\Readme.md)
 * [Aws Ses](S2Cognition.Integrations.AmazonWebServices.Ses\Readme.md)
 * [Aws Ssm](S2Cognition.Integrations.AmazonWebServices.Ssm\Readme.md)
+* [Aws StepFunction](S2Cognition.Integrations.AmazonWebServices.StepFunction\Readme.md)
 * [Dropbox](S2Cognition.Integrations.Dropbox.Core\Readme.md)
 * [NetSuite](S2Cognition.Integrations.NetSuite.Core\Readme.md)
 * [Zoom](S2Cognition.Integrations.Zoom.Core\Readme.md)
