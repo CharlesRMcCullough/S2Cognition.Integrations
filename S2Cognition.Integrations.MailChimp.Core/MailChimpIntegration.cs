@@ -7,8 +7,8 @@ using S2Cognition.Integrations.MailChimp.Core.Models;
 namespace S2Cognition.Integrations.MailChimp.Core;
 public interface IMailChimpIntegration : IIntegration<MailChimpConfiguration>
 {
-    Task<GetListsResponse> GetLists();
-    Task<AddUpdateMemberResponse> MailChimpAddUpdateMember(AddUpdateMemberRequest req);
+    Task<GetListsResponse>? GetLists();
+    Task<AddUpdateMemberResponse>? MailChimpAddUpdateMember(AddUpdateMemberRequest req);
 }
 public class MailChimpIntegration : Integration<MailChimpConfiguration>, IMailChimpIntegration
 {
@@ -30,7 +30,7 @@ public class MailChimpIntegration : Integration<MailChimpConfiguration>, IMailCh
         });
     }
 
-    public async Task<AddUpdateMemberResponse> MailChimpAddUpdateMember(AddUpdateMemberRequest req)
+    public async Task<AddUpdateMemberResponse>? MailChimpAddUpdateMember(AddUpdateMemberRequest req)
     {
         if (req.ListId == null)
             throw new ArgumentException(nameof(req.ListId));
@@ -53,7 +53,7 @@ public class MailChimpIntegration : Integration<MailChimpConfiguration>, IMailCh
         {
             return new AddUpdateMemberResponse
             {
-                Id = response.Id,
+                ListId = response.ListId,
                 EmailAddress = response.EmailAddress
             };
         }
@@ -61,7 +61,7 @@ public class MailChimpIntegration : Integration<MailChimpConfiguration>, IMailCh
         return new AddUpdateMemberResponse();
     }
 
-    public async Task<GetListsResponse> GetLists()
+    public async Task<GetListsResponse>? GetLists()
     {
         List<GetListResponseItem> getListResponseItems = new List<GetListResponseItem>();
 

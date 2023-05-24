@@ -2,7 +2,7 @@
 {
     public class AddUpdateMemberResponse
     {
-        public string? Id { get; set; }
+        public string? ListId { get; set; }
         public string? EmailAddress { get; set; }
     }
 }
