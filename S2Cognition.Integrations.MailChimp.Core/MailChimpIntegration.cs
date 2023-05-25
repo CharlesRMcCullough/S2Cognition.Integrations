@@ -30,7 +30,7 @@ public class MailChimpIntegration : Integration<MailChimpConfiguration>, IMailCh
         });
     }
 
-    public async Task<AddUpdateMemberResponse>? MailChimpAddUpdateMember(AddUpdateMemberRequest req)
+    public async Task<AddUpdateMemberResponse> MailChimpAddUpdateMember(AddUpdateMemberRequest req)
     {
         if (req.ListId == null)
             throw new ArgumentException(nameof(req.ListId));
@@ -61,7 +61,7 @@ public class MailChimpIntegration : Integration<MailChimpConfiguration>, IMailCh
         return new AddUpdateMemberResponse();
     }
 
-    public async Task<GetListsResponse>? GetLists()
+    public async Task<GetListsResponse> GetLists()
     {
         List<GetListResponseItem> getListResponseItems = new List<GetListResponseItem>();
 
@@ -79,6 +79,6 @@ public class MailChimpIntegration : Integration<MailChimpConfiguration>, IMailCh
         return new GetListsResponse
         {
             GetListResponseItems = getListResponseItems
-        };
+        } ?? new GetListsResponse();
     }
 }

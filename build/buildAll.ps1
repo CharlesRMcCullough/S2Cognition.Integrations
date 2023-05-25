@@ -54,6 +54,7 @@ try
         "S2Cognition.Integrations.StreamDeck.AzdoPipelineMonitor*.nupkg", `
         "S2Cognition.Integrations.Zoom.Core*.nupkg", `
         "S2Cognition.Integrations.Zoom.Phones*.nupkg" `
+        "S2Cognition.Integrations.MailChimp*.nupkg" `
     )
 
     Write-Host

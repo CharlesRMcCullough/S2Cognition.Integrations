@@ -33,9 +33,9 @@ public class IntegrationTests : UnitTestBase
     {
         _configuration = new MailChimpConfiguration(_ioc)
         {
-            AccountId = "fake account id"
-            //ClientId = "fake client id",
-            //ClientSecret = "fake client secret"
+            AccountId = "fake account id",
+            ClientId = "fake client id",
+            ClientSecret = "fake client secret"
         };
 
         var mailChimpIntegration = _ioc.GetRequiredService<IMailChimpIntegration>() as MailChimpIntegration;

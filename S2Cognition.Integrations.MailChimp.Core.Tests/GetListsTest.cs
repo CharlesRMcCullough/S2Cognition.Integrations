@@ -34,5 +34,6 @@ public class GetListsTest : IntegrationTests
         response.GetListResponseItems.Any(_ => _.ListName == expectedResponse[0].Name);
         response.GetListResponseItems.Any(_ => _.ListId == expectedResponse[1].Id);
         response.GetListResponseItems.Any(_ => _.ListName == expectedResponse[1].Name);
+
     }
 }

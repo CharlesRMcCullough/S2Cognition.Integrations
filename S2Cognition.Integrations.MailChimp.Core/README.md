@@ -1,33 +1,33 @@
-﻿#  S2Cognition.Integrations.AmazonWebServices.Cloudwatch
+﻿#  S2Cognition.Integrations.MailChimp
 
 Subproject of [S2Cognition.Integrations](../readme.md)
 
 ## QuickStart Example
 
-1. Include the necessary NuGet packages into your project: `S2Cognition.Integrations.AmazonWebServices.Cloudwatch`
-2. Initialize your IoC container: `serviceCollection.AddAmazonWebServicesCloudwatchIntegration();`
+1. Include the necessary NuGet packages into your project: `S2Cognition.Integrations.MailChimp`
+2. Initialize your IoC container: `serviceCollection.AddMailChimpIntegration();`
 3. Create the appropriate configuration object:
     ```
-    var configuration = new AmazonWebServicesCloudwatchConfiguration(serviceProvider)
-    {
-        AccessKey = "your AccessKey",
-        SecretKey = "your SecretKey",
-        AwsRegion = "your AwsRegion",
-        ServiceUrl = "your ServiceUrl"
-    };
+var configuration = new MailChimpConfiguration(serviceProvider)
+{
+    AccountId = "",
+    ClientId = "",
+    ClientSecret = ""
+};
     ```
 4. Initialize the integration:
     ```
-    var integration = serviceProvider.GetRequiredService<IAmazonWebServicesCloudwatchIntegration>();
+    var integration = serviceProvider.GetRequiredService<IMailChimpIntegration>();
     await integration.Initialize(configuration);
     ```
-5. Call the integration Api's: `await integration.GetAlarmsState(new GetAlarmsStateRequest{...});`
+5. Call the integration Api's: `await await integration.GetLists();`
 
 ## Public objects
 
-* Configuration Object: `AmazonWebServicesCloudwatchConfiguration`
-* Integration Service: `IAmazonWebServicesCloudwatchIntegration`
+* Configuration Object: `MailChimpConfiguration`
+* Integration Service: `IMailChimpIntegration`
 
 ## Api's
 
-* `async Task<GetAlarmsStateResponse> GetAlarmsState(GetAlarmsStateRequest request)`
+* `Task<GetListsResponse>? GetLists();`
+* `Task<AddUpdateMemberResponse>? MailChimpAddUpdateMember(AddUpdateMemberRequest req)`
